@@ -1,13 +1,8 @@
 package com.formsapp.model.core;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.io.Serializable;
-
-@Setter
-@Getter
-public class CustomResponse<T> implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Data
+public class CustomResponse<T> {
     private T data;
 }

@@ -3,27 +3,33 @@ package com.formsapp.controller;
 import com.formsapp.common.AppMessage;
 import com.formsapp.model.Form;
 import com.formsapp.model.core.CustomResponse;
+import com.formsapp.service.FormService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/forms")
 public class FormController extends BaseController {
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Form>> getForms() {
-        log.info("successfully get form");
-        return responseOk(new Form());
+    @Autowired
+    private FormService formService;
+
+    @RequestMapping(method = RequestMethod.GET, path = "{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<Form>> getForms(@PathVariable UUID uuid) {
+        Form form = formService.getForm(uuid);
+        return responseOk(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<String>> addForms() {
-        return responseOkMessage(AppMessage.FORM_CREATED_SUCCESSFULLY.getMessage());
+    public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) {
+        UUID uuid = formService.addForm(form);
+        return responseOk(uuid);
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)

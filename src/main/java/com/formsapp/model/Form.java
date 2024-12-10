@@ -2,11 +2,9 @@ package com.formsapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import springfox.documentation.spring.web.json.Json;
-
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -19,5 +17,5 @@ public class Form {
     private String title;
     private String description;
     @Transient
-    private List<HashMap<String, ?>> formFieldList;
+    private List<BaseModel> formFieldList;
 }

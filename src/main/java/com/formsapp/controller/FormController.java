@@ -1,6 +1,8 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
+import com.formsapp.exception.InvalidFormFieldType;
+import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
 import com.formsapp.model.core.CustomResponse;
 import com.formsapp.service.FormService;
@@ -27,7 +29,7 @@ public class FormController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) {
+    public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) throws Operation, InvalidFormFieldType {
         UUID uuid = formService.addForm(form);
         return responseOk(uuid);
     }

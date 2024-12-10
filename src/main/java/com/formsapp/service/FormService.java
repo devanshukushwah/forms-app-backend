@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface FormService {
     Form getForm(UUID uuid);
     UUID addForm(Form form);
+    Form updateForm(Form form);
 }

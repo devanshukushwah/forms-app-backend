@@ -1,16 +1,31 @@
 package com.formsapp.common;
 
 import lombok.Getter;
-
 /**
  * Class to provide api messages for controller response.
  * */
 @Getter
 public enum AppMessage {
-    FORM_CREATED_SUCCESSFULLY("form created successfully"),
-    FORM_UPDATED_SUCCESSFULLY("form updated successfully");
+    FORM("form"),
+    FORM_FIELD("form field");
     AppMessage(String message) {
         this.message = message;
+        this.createSuccessfully = message.concat(SPACE).concat(CREATE).concat(SPACE).concat(SUCCESSFULLY);
+        this.updateSuccessfully = message.concat(SPACE).concat(UPDATE).concat(SPACE).concat(SUCCESSFULLY);
+        this.createFailed = FAILED_TO.concat(SPACE).concat(CREATE).concat(message);
+        this.updateFailed = FAILED_TO.concat(SPACE).concat(UPDATE).concat(message);
+        this.fetchFailed = FAILED_TO.concat(SPACE).concat(FETCH).concat(message);
     }
+    private final static String SUCCESSFULLY = "successfully";
+    private final static String FAILED_TO = "failed to";
+    private final static String CREATE = "create";
+    private final static String UPDATE = "update";
+    private final static String FETCH = "fetch";
+    private final static String SPACE = " ";
     private final String message;
+    private final String createSuccessfully;
+    private final String updateSuccessfully;
+    private final String createFailed;
+    private final String updateFailed;
+    private final String fetchFailed;
 }

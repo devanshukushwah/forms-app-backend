@@ -1,6 +1,5 @@
 package com.formsapp.service;
 
-import com.formsapp.exception.InvalidFormFieldType;
 import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
 

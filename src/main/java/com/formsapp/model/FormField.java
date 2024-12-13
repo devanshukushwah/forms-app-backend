@@ -1,21 +1,20 @@
 package com.formsapp.model;
 
-import com.formsapp.common.FormFieldType;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
-public class FormFieldInput {
+public class FormField {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Transient
-    private String type = FormFieldType.INPUT.getValue();
+    private String fieldType;
     @Column(name = "form_id", nullable = false)
     private UUID formId;
-    private String title;
-    private String value;
+    @OneToMany(mappedBy = "formField")
+    private List<FormFieldAttribute> formFieldAttributes;
 }

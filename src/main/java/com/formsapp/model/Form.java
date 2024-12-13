@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -17,5 +16,5 @@ public class Form {
     private String title;
     private String description;
     @Transient
-    private List<BaseModel> formFieldList;
+    private List<FormField> formFields;
 }

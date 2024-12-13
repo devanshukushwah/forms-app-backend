@@ -1,7 +1,6 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
-import com.formsapp.exception.InvalidFormFieldType;
 import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
 import com.formsapp.model.core.CustomResponse;
@@ -25,17 +24,24 @@ public class FormController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, path = "{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<Form>> getForms(@PathVariable UUID uuid) {
         Form form = formService.getForm(uuid);
-        return responseOk(form);
+        if(form != null) {
+            return responseOk(form);
+        }
+        return responseFailDataMessage(null, AppMessage.FORM.getFetchFailed());
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) throws Operation, InvalidFormFieldType {
+    public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) throws Operation {
         UUID uuid = formService.addForm(form);
-        return responseOk(uuid);
+        if(form != null) {
+            responseOkDataMessage(uuid, AppMessage.FORM.getCreateSuccessfully());
+        }
+        return responseFailDataMessage(uuid, AppMessage.FORM.getCreateFailed());
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<String>> updateForms() {
         return responseOkMessage(AppMessage.FORM_UPDATED_SUCCESSFULLY.getMessage());
     }
+
 }

@@ -12,9 +12,9 @@ public enum AppMessage {
         this.message = message;
         this.createSuccessfully = message.concat(SPACE).concat(CREATE).concat(SPACE).concat(SUCCESSFULLY);
         this.updateSuccessfully = message.concat(SPACE).concat(UPDATE).concat(SPACE).concat(SUCCESSFULLY);
-        this.createFailed = FAILED_TO.concat(SPACE).concat(CREATE).concat(message);
-        this.updateFailed = FAILED_TO.concat(SPACE).concat(UPDATE).concat(message);
-        this.fetchFailed = FAILED_TO.concat(SPACE).concat(FETCH).concat(message);
+        this.createFailed = FAILED_TO.concat(SPACE).concat(CREATE).concat(SPACE).concat(message);
+        this.updateFailed = FAILED_TO.concat(SPACE).concat(UPDATE).concat(SPACE).concat(message);
+        this.fetchFailed = FAILED_TO.concat(SPACE).concat(FETCH).concat(SPACE).concat(message);
     }
     private final static String SUCCESSFULLY = "successfully";
     private final static String FAILED_TO = "failed to";

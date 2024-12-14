@@ -1,6 +1,5 @@
 package com.formsapp.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.formsapp.exception.FormException;
 import com.formsapp.model.FormField;
 import com.formsapp.repository.FormFieldRepository;
@@ -16,12 +15,16 @@ public class FormFieldServiceImpl implements FormFieldService {
     @Autowired
     private FormFieldRepository formFieldRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Override
     public FormField save(UUID formId, FormField formField) throws FormException {
+
         formField.setFormId(formId);
+
+        // Ensure the bidirectional relationship is maintained
+        if (formField.getAttributes() != null) {
+            formField.getAttributes().forEach(attribute -> attribute.setFormField(formField));
+        }
+
         return formFieldRepository.save(formField);
     }
 

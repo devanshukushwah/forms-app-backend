@@ -1,27 +1,29 @@
 package com.formsapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Data
+@Entity
+@NoArgsConstructor
 @AllArgsConstructor
 public class FormFieldAttribute {
+    /* primary key */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "form_field_id", nullable = false)
-    private FormField formField;
+
+    /* object attributes */
     private String attr;
     private String value;
-    private Integer order;
+    private Integer sqc;
 
-    public FormFieldAttribute(String attr, String value) {
-        this.attr = attr;
-        this.value = value;
-    }
+    @ManyToOne
+    @JoinColumn(name = "form_field_id", nullable = false)
+    @JsonBackReference
+    private FormField formField;
 }
-

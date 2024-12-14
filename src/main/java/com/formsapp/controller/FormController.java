@@ -33,15 +33,15 @@ public class FormController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) throws Operation {
         UUID uuid = formService.addForm(form);
-        if(form != null) {
-            responseOkDataMessage(uuid, AppMessage.FORM.getCreateSuccessfully());
+        if(uuid != null) {
+           return responseOkDataMessage(uuid, AppMessage.FORM.getCreateSuccessfully());
         }
-        return responseFailDataMessage(uuid, AppMessage.FORM.getCreateFailed());
+        return responseFailDataMessage(null, AppMessage.FORM.getCreateFailed());
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<String>> updateForms() {
-        return responseOkMessage(AppMessage.FORM_UPDATED_SUCCESSFULLY.getMessage());
+        return responseOkMessage(AppMessage.FORM.getUpdateSuccessfully());
     }
 
 }

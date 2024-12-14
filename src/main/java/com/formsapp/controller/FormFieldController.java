@@ -26,9 +26,8 @@ public class FormFieldController extends BaseController {
         FormField res = formFieldService.save(uuid, formField);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getCreateSuccessfully());
-        } else {
-            return responseFailDataMessage(null, AppMessage.FORM_FIELD.getCreateFailed());
         }
+        return responseFailDataMessage(null, AppMessage.FORM_FIELD.getCreateFailed());
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,9 +35,8 @@ public class FormFieldController extends BaseController {
         FormField res = formFieldService.updateFormField(uuid, id, formField);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getUpdateSuccessfully());
-        } else {
-            return responseFailDataMessage(null, AppMessage.FORM_FIELD.getUpdateFailed());
         }
+        return responseFailDataMessage(null, AppMessage.FORM_FIELD.getUpdateFailed());
     }
 }
 

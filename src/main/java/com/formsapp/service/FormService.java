@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface FormService {
     Form getForm(UUID uuid);
-    UUID addForm(Form form) throws Operation, InvalidFormFieldType;
+    UUID addForm(Form form) throws Operation;
     Form updateForm(Form form);
 }

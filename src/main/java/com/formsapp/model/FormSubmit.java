@@ -14,15 +14,14 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FormField {
+public class FormSubmit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long fieldId;
-    private String fieldType;
-    @Column(name = "form_id", nullable = false)
+    private Long subId;
     private UUID formId;
+    private String email;
 
-    @OneToMany(mappedBy = "formField", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "formSubmit", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<FormFieldAttribute> attributes = new ArrayList<>();
+    private List<FormFieldAnswer> answers = new ArrayList<>();
 }

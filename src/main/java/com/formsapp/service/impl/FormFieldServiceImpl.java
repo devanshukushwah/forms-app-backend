@@ -30,7 +30,7 @@ public class FormFieldServiceImpl implements FormFieldService {
 
     @Override
     public FormField updateFormField(UUID formId, Long formFieldId, FormField formField) throws FormException {
-        formField.setId(formFieldId);
+        formField.setFieldId(formFieldId);
         return save(formId, formField);
     }
 }

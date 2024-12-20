@@ -15,15 +15,15 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/forms/{uuid}/formFields")
+@RequestMapping("api/v1/forms/{formId}/formFields")
 public class FormFieldController extends BaseController {
 
     @Autowired
     private FormFieldService formFieldService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormField>> addFormsField(@PathVariable UUID uuid, @RequestBody FormField formField) throws FormException {
-        FormField res = formFieldService.save(uuid, formField);
+    public ResponseEntity<CustomResponse<FormField>> addFormsField(@PathVariable UUID formId, @RequestBody FormField formField) throws FormException {
+        FormField res = formFieldService.save(formId, formField);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getCreateSuccessfully());
         }
@@ -31,8 +31,8 @@ public class FormFieldController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormField>> updateFormsField(@PathVariable UUID uuid, @PathVariable Long id, @RequestBody FormField formField) throws FormException {
-        FormField res = formFieldService.updateFormField(uuid, id, formField);
+    public ResponseEntity<CustomResponse<FormField>> updateFormsField(@PathVariable UUID formId, @PathVariable Long id, @RequestBody FormField formField) throws FormException {
+        FormField res = formFieldService.updateFormField(formId, id, formField);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getUpdateSuccessfully());
         }

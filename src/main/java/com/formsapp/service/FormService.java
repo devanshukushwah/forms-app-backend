@@ -6,7 +6,7 @@ import com.formsapp.model.Form;
 import java.util.UUID;
 
 public interface FormService {
-    Form getForm(UUID uuid);
+    Form getForm(UUID formId);
     UUID addForm(Form form) throws Operation;
     Form updateForm(Form form);
 }

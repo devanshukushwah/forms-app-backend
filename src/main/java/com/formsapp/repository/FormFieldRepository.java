@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface FormFieldRepository extends JpaRepository<FormField, Long> {
-    List<FormField> findByFormId(UUID uuid);
+    List<FormField> findByFormId(UUID formId);
 }

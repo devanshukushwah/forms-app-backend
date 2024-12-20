@@ -20,19 +20,19 @@ public class FormServiceImpl implements FormService {
     private FormFieldRepository formFieldRepository;
 
     @Override
-    public Form getForm(UUID uuid) {
-        Form form = formRepository.getReferenceById(uuid);
-        form.setFormFields(formFieldRepository.findByFormId(uuid));
+    public Form getForm(UUID formId) {
+        Form form = formRepository.findByFormId(formId);
+        form.setFormFields(formFieldRepository.findByFormId(formId));
         return form;
     }
 
     @Override
     public UUID addForm(Form form) throws Operation {
         Form save = formRepository.save(form);
-        if (save.getId() == null) {
+        if (save.getFormId() == null) {
             throw new Operation("failed to add form");
         }
-        return save.getId();
+        return save.getFormId();
     }
 
     @Override

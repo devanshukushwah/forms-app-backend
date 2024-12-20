@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Form {
     @Id // Primary key
     @GeneratedValue(strategy = GenerationType.AUTO) // Auto-increment
-    private UUID id;
+    private UUID formId;
     private String title;
     private String description;
     @Transient

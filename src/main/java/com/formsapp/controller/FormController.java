@@ -21,9 +21,9 @@ public class FormController extends BaseController {
     @Autowired
     private FormService formService;
 
-    @RequestMapping(method = RequestMethod.GET, path = "{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Form>> getForms(@PathVariable UUID uuid) {
-        Form form = formService.getForm(uuid);
+    @RequestMapping(method = RequestMethod.GET, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<Form>> getForms(@PathVariable UUID formId) {
+        Form form = formService.getForm(formId);
         if(form != null) {
             return responseOk(form);
         }
@@ -32,9 +32,9 @@ public class FormController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) throws Operation {
-        UUID uuid = formService.addForm(form);
-        if(uuid != null) {
-           return responseOkDataMessage(uuid, AppMessage.FORM.getCreateSuccessfully());
+        UUID formId = formService.addForm(form);
+        if(formId != null) {
+           return responseOkDataMessage(formId, AppMessage.FORM.getCreateSuccessfully());
         }
         return responseFailDataMessage(null, AppMessage.FORM.getCreateFailed());
     }

@@ -6,24 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FormFieldAttribute {
-    /* primary key */
+public class FormFieldAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ansId;
+    private Long fieldId;
+    @Column(nullable = false)
     private Long attrId;
-
-    /* object attributes */
-    private String attr;
     private String value;
-    private Integer sqc;
 
     @ManyToOne
-    @JoinColumn(name = "form_field_id", nullable = false)
+    @JoinColumn(name = "form_submit_id", nullable = false)
     @JsonBackReference
-    private FormField formField;
+    private FormSubmit formSubmit;
 }

@@ -23,7 +23,9 @@ public class FormServiceImpl implements FormService {
     @Override
     public Form getForm(String formId) {
         Form form = formRepository.findByFormId(formId);
-        form.setFormFields(formFieldRepository.findByFormId(formId));
+        if (form != null) {
+            form.setFormFields(formFieldRepository.findByFormId(formId));
+        }
         return form;
     }
 

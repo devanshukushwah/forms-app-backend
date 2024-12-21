@@ -30,6 +30,11 @@ public class FormSubmitServiceImpl implements FormSubmitService {
     }
 
     @Override
+    public FormSubmit getSubmit(Long subId, String formId) {
+        return formSubmitRepository.findBySubIdAndFormId(subId, formId);
+    }
+
+    @Override
     public List<FormResponse> getResponses(String formId) {
         return formSubmitRepository.findAllByFormId(formId);
     }

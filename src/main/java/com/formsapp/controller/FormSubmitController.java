@@ -26,9 +26,19 @@ public class FormSubmitController extends BaseController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("formId") String formId, @PathVariable String email) {
+    @RequestMapping(method = RequestMethod.GET, path = "emails/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<FormSubmit>> getSubmitByEmail(@PathVariable("formId") String formId, @PathVariable String email) {
         FormSubmit formSubmit = formSubmitService.getSubmit(formId, email);
+        if(formSubmit != null) {
+            return responseOk(formSubmit);
+        } else {
+            return responseFailDataMessage(null, AppMessage.FORM_SUBMIT.getFetchFailed());
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("formId") String formId, @PathVariable("subId") Long subId) {
+        FormSubmit formSubmit = formSubmitService.getSubmit(subId, formId);
         if(formSubmit != null) {
             return responseOk(formSubmit);
         } else {

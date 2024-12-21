@@ -18,6 +18,7 @@ public enum AppMessage {
         this.submitFailed = FAILED_TO.concat(SPACE).concat(SUBMIT).concat(SPACE).concat(message);
         this.updateFailed = FAILED_TO.concat(SPACE).concat(UPDATE).concat(SPACE).concat(message);
         this.fetchFailed = FAILED_TO.concat(SPACE).concat(FETCH).concat(SPACE).concat(message);
+        this.notFound =  message.concat(SPACE).concat(NOT_FOUND);
     }
     private final static String SUCCESSFULLY = "successfully";
     private final static String FAILED_TO = "failed to";
@@ -26,6 +27,7 @@ public enum AppMessage {
     private final static String FETCH = "fetch";
     private final static String SUBMIT = "submit";
     private final static String SPACE = " ";
+    private final static String NOT_FOUND = "not found";
     private final String message;
     private final String createSuccessfully;
     private final String submitSuccessfully;
@@ -34,4 +36,5 @@ public enum AppMessage {
     private final String submitFailed;
     private final String updateFailed;
     private final String fetchFailed;
+    private final String notFound;
 }

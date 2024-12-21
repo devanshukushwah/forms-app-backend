@@ -25,7 +25,7 @@ public class FormController extends BaseController {
         if(form != null) {
             return responseOk(form);
         }
-        return responseFailDataMessage(null, AppMessage.FORM.getFetchFailed());
+        return responseFailDataMessage(null, AppMessage.FORM.getNotFound());
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

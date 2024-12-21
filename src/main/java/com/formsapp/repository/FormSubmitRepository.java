@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface FormSubmitRepository extends JpaRepository<FormSubmit, Long> {
     FormSubmit findByFormIdAndEmail(String formId, String email);
+    FormSubmit findBySubIdAndFormId(Long subId, String formId);
     @Query("SELECT f.email AS email, f.subId AS subId FROM FormSubmit f WHERE f.formId = :formId")
     List<FormResponse> findAllByFormId(String formId);
 }

@@ -1,15 +1,20 @@
 package com.formsapp.service.impl;
 
+import com.formsapp.common.AppConstant;
 import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
 import com.formsapp.repository.FormFieldRepository;
 import com.formsapp.repository.FormRepository;
 import com.formsapp.service.FormService;
+import com.formsapp.util.DateUtils;
+import com.formsapp.util.UUIDUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class FormServiceImpl implements FormService {
 
@@ -20,18 +25,35 @@ public class FormServiceImpl implements FormService {
     private FormFieldRepository formFieldRepository;
 
     @Override
-    public Form getForm(UUID formId) {
+    public Form getForm(String formId) {
         Form form = formRepository.findByFormId(formId);
         form.setFormFields(formFieldRepository.findByFormId(formId));
         return form;
     }
 
+    private String generateFormId() throws Operation {
+        try {
+            String formId = UUIDUtils.generateUUID();
+            while(formRepository.existsByFormId(formId)) {
+                formId = UUIDUtils.generateUUID();
+            }
+            return formId;
+        } catch (Exception ex) {
+            log.error("failed to generate formId {} ", ex.getMessage(), ex);
+        }
+        throw new Operation("failed to add form");
+    }
+
     @Override
-    public UUID addForm(Form form) throws Operation {
+    public String addForm(Form form) throws Operation {
+        String formId = this.generateFormId();
+        form.setFormId(formId);
+
         Form save = formRepository.save(form);
         if (save.getFormId() == null) {
             throw new Operation("failed to add form");
         }
+
         return save.getFormId();
     }
 

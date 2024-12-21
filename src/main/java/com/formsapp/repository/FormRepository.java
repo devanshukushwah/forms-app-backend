@@ -8,5 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface FormRepository extends JpaRepository<Form, UUID> {
-    Form findByFormId(UUID formId);
+    Form findByFormId(String formId);
+    boolean existsByFormId(String formId);
 }

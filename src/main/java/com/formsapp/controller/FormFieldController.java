@@ -22,7 +22,7 @@ public class FormFieldController extends BaseController {
     private FormFieldService formFieldService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormField>> addFormsField(@PathVariable UUID formId, @RequestBody FormField formField) throws FormException {
+    public ResponseEntity<CustomResponse<FormField>> addFormsField(@PathVariable String formId, @RequestBody FormField formField) throws FormException {
         FormField res = formFieldService.save(formId, formField);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getCreateSuccessfully());
@@ -31,7 +31,7 @@ public class FormFieldController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormField>> updateFormsField(@PathVariable UUID formId, @PathVariable Long id, @RequestBody FormField formField) throws FormException {
+    public ResponseEntity<CustomResponse<FormField>> updateFormsField(@PathVariable String formId, @PathVariable Long id, @RequestBody FormField formField) throws FormException {
         FormField res = formFieldService.updateFormField(formId, id, formField);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getUpdateSuccessfully());

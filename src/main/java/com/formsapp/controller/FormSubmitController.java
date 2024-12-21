@@ -20,7 +20,7 @@ public class FormSubmitController extends BaseController {
     private FormSubmitService formSubmitService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") UUID formId, @RequestBody FormSubmit formSubmit) {
+    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody FormSubmit formSubmit) {
         Boolean res = formSubmitService.addSubmit(formSubmit);
         if(res) {
             return responseOkDataMessage(true, AppMessage.FORM_SUBMIT.getSubmitSuccessfully());
@@ -30,7 +30,7 @@ public class FormSubmitController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("formId") UUID formId, @PathVariable String email) {
+    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("formId") String formId, @PathVariable String email) {
         FormSubmit formSubmit = formSubmitService.getSubmit(formId, email);
         if(formSubmit != null) {
             return responseOk(formSubmit);

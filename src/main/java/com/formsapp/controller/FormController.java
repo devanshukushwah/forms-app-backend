@@ -22,7 +22,7 @@ public class FormController extends BaseController {
     private FormService formService;
 
     @RequestMapping(method = RequestMethod.GET, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Form>> getForms(@PathVariable UUID formId) {
+    public ResponseEntity<CustomResponse<Form>> getForms(@PathVariable String formId) {
         Form form = formService.getForm(formId);
         if(form != null) {
             return responseOk(form);
@@ -31,8 +31,8 @@ public class FormController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<UUID>> addForms(@RequestBody Form form) throws Operation {
-        UUID formId = formService.addForm(form);
+    public ResponseEntity<CustomResponse<String>> addForms(@RequestBody Form form) throws Operation {
+        String formId = formService.addForm(form);
         if(formId != null) {
            return responseOkDataMessage(formId, AppMessage.FORM.getCreateSuccessfully());
         }

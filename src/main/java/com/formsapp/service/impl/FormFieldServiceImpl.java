@@ -16,7 +16,7 @@ public class FormFieldServiceImpl implements FormFieldService {
     private FormFieldRepository formFieldRepository;
 
     @Override
-    public FormField save(UUID formId, FormField formField) throws FormException {
+    public FormField save(String formId, FormField formField) throws FormException {
 
         formField.setFormId(formId);
 
@@ -29,7 +29,7 @@ public class FormFieldServiceImpl implements FormFieldService {
     }
 
     @Override
-    public FormField updateFormField(UUID formId, Long formFieldId, FormField formField) throws FormException {
+    public FormField updateFormField(String formId, Long formFieldId, FormField formField) throws FormException {
         formField.setFieldId(formFieldId);
         return save(formId, formField);
     }

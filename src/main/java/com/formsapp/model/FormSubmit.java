@@ -18,7 +18,7 @@ public class FormSubmit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long subId;
-    private UUID formId;
+    private String formId;
     private String email;
 
     @OneToMany(mappedBy = "formSubmit", cascade = CascadeType.ALL, orphanRemoval = true)

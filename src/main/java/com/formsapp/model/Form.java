@@ -16,8 +16,7 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Form {
     @Id // Primary key
-    @GeneratedValue(strategy = GenerationType.AUTO) // Auto-increment
-    private UUID formId;
+    private String formId;
     private String title;
     private String description;
     @Transient

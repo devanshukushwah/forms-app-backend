@@ -19,8 +19,10 @@ public class FormField {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long fieldId;
     private String fieldType;
+    private Boolean required;
+
     @Column(name = "form_id", nullable = false)
-    private UUID formId;
+    private String formId;
 
     @OneToMany(mappedBy = "formField", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

@@ -1,14 +1,13 @@
 package com.formsapp.service.impl;
 
 import com.formsapp.model.FormSubmit;
+import com.formsapp.model.projection.FormResponse;
 import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class FormSubmitServiceImpl implements FormSubmitService {
@@ -31,7 +30,7 @@ public class FormSubmitServiceImpl implements FormSubmitService {
     }
 
     @Override
-    public List<FormSubmit> getResponses(String formId) {
+    public List<FormResponse> getResponses(String formId) {
         return formSubmitRepository.findAllByFormId(formId);
     }
 

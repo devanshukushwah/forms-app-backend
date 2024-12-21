@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Data

@@ -1,6 +1,6 @@
 package com.formsapp.model.response;
 
-import com.formsapp.model.FormSubmit;
+import com.formsapp.model.projection.FormResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class SubmitResponse {
-    private List<FormSubmit> responses;
-    public SubmitResponse(List<FormSubmit> responses) {
-        this.responses = responses;
-    }
+    private List<FormResponse> responses;
 }

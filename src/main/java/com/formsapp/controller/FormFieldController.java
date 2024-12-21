@@ -3,16 +3,12 @@ package com.formsapp.controller;
 import com.formsapp.common.AppMessage;
 import com.formsapp.exception.FormException;
 import com.formsapp.model.FormField;
-import com.formsapp.model.FormFieldAttribute;
 import com.formsapp.model.core.CustomResponse;
 import com.formsapp.service.FormFieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/forms/{formId}/formFields")

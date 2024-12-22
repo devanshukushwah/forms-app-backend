@@ -16,7 +16,6 @@ public class FormFieldAnswer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ansId;
     private Long fieldId;
-    @Column(nullable = false)
     private Long attrId;
     private String value;
 

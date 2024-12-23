@@ -35,14 +35,14 @@ public class Form {
      * Timestamp when the form was created.
      * Automatically populated when the entity is persisted.
      */
-    @Column(updatable = false)
-    private Date createTime;
+    @Column(updatable = false, nullable = false)
+    private Date createdDate;
 
     /**
      * Timestamp when the form was last updated.
      * Automatically updated whenever the entity is updated.
      */
-    private Date changedTime;
+    private Date changedDate;
 
     /**
      * List of form fields associated with the form.
@@ -56,7 +56,7 @@ public class Form {
      */
     @PrePersist
     protected void onCreate() {
-        this.createTime = new Date();
+        this.createdDate = new Date();
     }
 
     /**
@@ -64,7 +64,7 @@ public class Form {
      */
     @PreUpdate
     protected void onUpdate() {
-        this.changedTime = new Date();
+        this.changedDate = new Date();
     }
 }
 

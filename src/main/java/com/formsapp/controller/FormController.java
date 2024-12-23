@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/forms")
@@ -24,6 +26,15 @@ public class FormController extends BaseController {
         Form form = formService.getForm(formId);
         if(form != null) {
             return responseOk(form);
+        }
+        return responseFailDataMessage(null, AppMessage.FORM.getNotFound());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<List<Form>>> getAllForms() {
+        List<Form> forms = formService.getAllForm();
+        if(forms != null) {
+            return responseOk(forms);
         }
         return responseFailDataMessage(null, AppMessage.FORM.getNotFound());
     }

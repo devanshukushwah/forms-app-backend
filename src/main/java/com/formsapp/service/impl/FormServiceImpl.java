@@ -8,6 +8,10 @@ import com.formsapp.service.FormService;
 import com.formsapp.util.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +36,18 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public List<Form> getAllForm() {
-        return formRepository.findAll();
+    public Page<Form> getAllForm(int page, int size, String sortField, String sortOrder) {
+        // Create Sort object based on field and direction
+        Sort sort = Sort.by(Sort.Order.by(sortField));
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        // Create Pageable object with page number, page size, and sort order
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return formRepository.findAll(pageable);
     }
 
     /**

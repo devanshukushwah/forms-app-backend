@@ -7,6 +7,7 @@ import com.formsapp.model.core.CustomResponse;
 import com.formsapp.service.FormService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,13 @@ public class FormController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<List<Form>>> getAllForms() {
-        List<Form> forms = formService.getAllForm();
+    public ResponseEntity<CustomResponse<Page<Form>>> getAllForms(
+            @RequestParam(defaultValue = "0") int page,  // Page number (default is 0)
+            @RequestParam(defaultValue = "10") int size, // Page size (default is 10)
+            @RequestParam(defaultValue = "createdDate") String sortField,  // Sorting field (default is "name")
+            @RequestParam(defaultValue = "desc") String sortOrder
+    ) {
+        Page<Form> forms = formService.getAllForm(page, size, sortField, sortOrder);
         if(forms != null) {
             return responseOk(forms);
         }

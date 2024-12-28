@@ -25,7 +25,7 @@ public class CorsConfig {
     public CorsConfiguration corsConfigurationLocal() {
         CorsConfiguration config = new CorsConfiguration();
         config.applyPermitDefaultValues();
-        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         return config;
     }
 

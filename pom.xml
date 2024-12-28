@@ -19,6 +19,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <lombok.version>1.18.34</lombok.version>
   </properties>
 
   <dependencies>
@@ -41,10 +42,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.18.34</version>
-      <optional>true</optional>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
     </dependency>
 
 <!--    <dependency>-->
@@ -76,6 +75,13 @@
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
   <build>
@@ -93,6 +99,7 @@
             <path>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
             </path>
           </annotationProcessorPaths>
         </configuration>

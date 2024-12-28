@@ -1,6 +1,7 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
+import com.formsapp.exception.FormException;
 import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
 import com.formsapp.model.core.CustomResponse;
@@ -54,9 +55,14 @@ public class FormController extends BaseController {
         return responseFailDataMessage(null, AppMessage.FORM.getCreateFailed());
     }
 
-    @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<String>> updateForms() {
-        return responseOkMessage(AppMessage.FORM.getUpdateSuccessfully());
+    @RequestMapping(method = RequestMethod.PUT, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<Form>> updateForms(@PathVariable("formId") String formId, @RequestBody Form form) throws FormException {
+        Form res = formService.updateForm(formId, form);
+        if (res != null) {
+            return responseOkDataMessage(res, AppMessage.FORM.getUpdateSuccessfully());
+        }
+
+        throw new FormException(AppMessage.FORM.getUpdateFailed());
     }
 
 }

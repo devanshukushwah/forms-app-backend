@@ -81,7 +81,11 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public Form updateForm(Form form) {
-        return null;
+    public Form updateForm(String formId, Form form) throws Operation {
+        if (!formRepository.existsByFormId(formId)) {
+            throw new Operation("form not found");
+        }
+        form.setFormId(formId);
+        return formRepository.save(form);
     }
 }

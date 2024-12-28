@@ -10,5 +10,5 @@ public interface FormService {
     Form getForm(String formId);
     Page<Form> getAllForm(int page, int size, String sortField, String sortOrder);
     String addForm(Form form) throws Operation;
-    Form updateForm(Form form);
+    Form updateForm(String formId, Form form) throws Operation;
 }

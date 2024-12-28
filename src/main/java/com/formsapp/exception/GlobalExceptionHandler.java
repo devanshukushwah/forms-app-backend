@@ -1,7 +1,6 @@
-package com.formsapp.config;
+package com.formsapp.exception;
 
 import com.formsapp.common.AppErrorMessage;
-import com.formsapp.exception.FormException;
 import com.formsapp.model.core.CustomResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;

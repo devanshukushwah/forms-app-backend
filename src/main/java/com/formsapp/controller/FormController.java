@@ -47,12 +47,12 @@ public class FormController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<String>> addForms(@RequestBody Form form) throws Operation {
+    public ResponseEntity<CustomResponse<String>> addForms(@RequestBody Form form) throws FormException {
         String formId = formService.addForm(form);
         if(formId != null) {
            return responseOkDataMessage(formId, AppMessage.FORM.getCreateSuccessfully());
         }
-        return responseFailDataMessage(null, AppMessage.FORM.getCreateFailed());
+        throw new FormException(AppMessage.FORM.getCreateFailed());
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -51,6 +51,9 @@ public class Form {
     @Transient
     private List<FormField> formFields;
 
+    @Transient
+    private Long submitsCount;
+
     /**
      * Callback to set createTime and changedTime before persisting.
      */

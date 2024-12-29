@@ -2,8 +2,10 @@ package com.formsapp.service.impl;
 
 import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
+import com.formsapp.model.projection.SubmitsCount;
 import com.formsapp.repository.FormFieldRepository;
 import com.formsapp.repository.FormRepository;
+import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.FormService;
 import com.formsapp.util.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -25,6 +29,9 @@ public class FormServiceImpl implements FormService {
 
     @Autowired
     private FormFieldRepository formFieldRepository;
+
+    @Autowired
+    private FormSubmitRepository formSubmitRepository;
 
     @Override
     public Form getForm(String formId) {
@@ -47,7 +54,16 @@ public class FormServiceImpl implements FormService {
 
         // Create Pageable object with page number, page size, and sort order
         Pageable pageable = PageRequest.of(page, size, sort);
-        return formRepository.findAll(pageable);
+        Page<Form> finalResult = formRepository.findAll(pageable);
+        if (finalResult != null && !finalResult.getContent().isEmpty()) {
+            List<Form> content = finalResult.getContent();
+            List<SubmitsCount> allCountsByFormIds = formSubmitRepository.findAllCountsByFormIds(content.stream().map(Form::getFormId).collect(Collectors.toList()));
+            Map<String, Long> collect = allCountsByFormIds.stream().collect(Collectors.toMap(SubmitsCount::getFormId, SubmitsCount::getSubmitsCount));
+            content.forEach(item -> {
+                item.setSubmitsCount(collect.get(item.getFormId()));
+            });
+        }
+        return finalResult;
     }
 
     /**

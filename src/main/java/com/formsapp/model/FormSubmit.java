@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,21 @@ public class FormSubmit {
     private Long subId;
     private String formId;
     private String email;
+
+    /**
+     * Timestamp when the form was created.
+     * Automatically populated when the entity is persisted.
+     */
+    @Column(updatable = false, nullable = false)
+    private Date createdDate;
+
+    /**
+     * Callback to set createTime and changedTime before persisting.
+     */
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = new Date();
+    }
 
     @OneToMany(mappedBy = "formSubmit", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

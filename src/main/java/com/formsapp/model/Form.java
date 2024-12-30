@@ -38,12 +38,16 @@ public class Form {
     @Column(updatable = false, nullable = false)
     private Date createdDate;
 
+    @Column(updatable = false, nullable = false)
+    private String createdBy;
+
     /**
      * Timestamp when the form was last updated.
      * Automatically updated whenever the entity is updated.
      */
     private Date changedDate;
 
+    private String changedBy;
     /**
      * List of form fields associated with the form.
      * This field is not persisted in the database.

@@ -6,13 +6,16 @@ import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
 import com.formsapp.model.core.CustomResponse;
 import com.formsapp.service.FormService;
+import com.formsapp.util.LoggedInUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -48,6 +51,7 @@ public class FormController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<String>> addForms(@RequestBody Form form) throws FormException {
+        form.setCreatedBy(LoggedInUserUtils.getLoggedInUserEmail());
         String formId = formService.addForm(form);
         if(formId != null) {
            return responseOkDataMessage(formId, AppMessage.FORM.getCreateSuccessfully());
@@ -57,11 +61,11 @@ public class FormController extends BaseController {
 
     @RequestMapping(method = RequestMethod.PUT, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<Form>> updateForms(@PathVariable("formId") String formId, @RequestBody Form form) throws FormException {
+        form.setChangedBy(LoggedInUserUtils.getLoggedInUserEmail());
         Form res = formService.updateForm(formId, form);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM.getUpdateSuccessfully());
         }
-
         throw new FormException(AppMessage.FORM.getUpdateFailed());
     }
 

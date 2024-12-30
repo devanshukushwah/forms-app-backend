@@ -8,7 +8,8 @@ import lombok.Getter;
 @Getter
 public enum AppErrorMessage {
     DATABASE_ERROR("database error"),
-    DATA_IS_NOT_VALID("data is not valid");
+    DATA_IS_NOT_VALID("data is not valid"),
+    GET_FORM_SUBMIT_FAILED("failed to get form and submit");
     AppErrorMessage(String message) {
         this.message = message;
     }

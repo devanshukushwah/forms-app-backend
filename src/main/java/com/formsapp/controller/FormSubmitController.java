@@ -10,13 +10,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/forms/{formId}/submits")
+@RequestMapping("api/v1/submits")
 public class FormSubmitController extends BaseController {
 
     @Autowired
     private FormSubmitService formSubmitService;
 
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, path = "{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("subId") Long subId) {
+        FormSubmit formSubmit = formSubmitService.getSubmit(subId);
+        if(formSubmit != null) {
+            return responseOk(formSubmit);
+        } else {
+            return responseFailDataMessage(null, AppMessage.FORM_SUBMIT.getFetchFailed());
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "formId/{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody FormSubmit formSubmit) {
         Boolean res = formSubmitService.addSubmit(formSubmit);
         if(res) {
@@ -26,7 +36,7 @@ public class FormSubmitController extends BaseController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "emails/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, path = "email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<FormSubmit>> getSubmitByEmail(@PathVariable("formId") String formId, @PathVariable String email) {
         FormSubmit formSubmit = formSubmitService.getSubmit(formId, email);
         if(formSubmit != null) {
@@ -36,13 +46,4 @@ public class FormSubmitController extends BaseController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("formId") String formId, @PathVariable("subId") Long subId) {
-        FormSubmit formSubmit = formSubmitService.getSubmit(subId, formId);
-        if(formSubmit != null) {
-            return responseOk(formSubmit);
-        } else {
-            return responseFailDataMessage(null, AppMessage.FORM_SUBMIT.getFetchFailed());
-        }
-    }
 }

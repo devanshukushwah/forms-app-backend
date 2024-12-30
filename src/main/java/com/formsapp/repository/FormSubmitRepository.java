@@ -18,4 +18,6 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, Long> {
 
     @Query("SELECT f.formId AS formId, COUNT(1) as submitsCount FROM FormSubmit f WHERE f.formId IN (:formIds) GROUP BY f.formId")
     List<SubmitsCount> findAllCountsByFormIds(List<String> formIds);
+
+    FormSubmit findBySubId(Long subId);
 }

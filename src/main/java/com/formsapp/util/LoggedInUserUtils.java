@@ -6,10 +6,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 public class LoggedInUserUtils {
+
     /**
-     * Retrieves the Email of the currently logged-in user.
+     * Retrieves the email of the currently logged-in user from the security context.
+     * This method assumes that the authentication object contains a JWT (JSON Web Token) with an "email" claim.
      *
-     * @return the Email or null if not authenticated.
+     * @return the email of the currently logged-in user
+     * @throws FormException if the user is not authenticated or the email claim is not found
      */
     public static String getLoggedInUserEmail() throws FormException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -1,23 +1,28 @@
 package com.formsapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-
 /**
- * Entity representing a form with fields for title, description,
- * create time, and update time, along with transient form fields.
+ * A data structure that holds both a form and its associated form submission.
+ * <p>
+ * This class is used to combine the form details and the form submission data into a single object
+ * for easier transfer or processing.
+ * </p>
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class FormAndSubmit {
+
+    /**
+     * The form associated with the submission.
+     */
     private Form form;
+
+    /**
+     * The form submission data.
+     */
     private FormSubmit submit;
 }
-

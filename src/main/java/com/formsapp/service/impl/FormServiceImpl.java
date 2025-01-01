@@ -40,6 +40,9 @@ public class FormServiceImpl implements FormService {
     @Autowired
     private FormSubmitRepository formSubmitRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Form getForm(String formId) {
         Form form = formRepository.findByFormId(formId);
@@ -49,6 +52,9 @@ public class FormServiceImpl implements FormService {
         return form;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Page<Form> getAllForm(int page, int size, String sortField, String sortOrder) {
         // Create Sort object based on field and direction
@@ -74,9 +80,41 @@ public class FormServiceImpl implements FormService {
     }
 
     /**
-     * method to generate unique id for creating new form
-     * @return generated form id
-     * */
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized String addForm(Form form) throws Operation {
+        String formId = this.generateFormId();
+        form.setFormId(formId);
+
+        Form save = formRepository.save(form);
+        if (save.getFormId() == null) {
+            throw new Operation("failed to add form");
+        }
+
+        return save.getFormId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Form updateForm(String formId, Form form) throws Operation {
+        if (!formRepository.existsByFormId(formId)) {
+            throw new Operation("form not found");
+        }
+        form.setFormId(formId);
+        return formRepository.save(form);
+    }
+
+    /**
+     * Method to generate a unique ID for creating a new form.
+     * It first generates an ID based on the current pattern and checks if the ID already exists.
+     * If it exists, it generates a new UUID.
+     *
+     * @return generated form ID
+     * @throws Operation if generating the form ID fails
+     */
     private String generateFormId() throws Operation {
         try {
             String formId = generateMyFormIdPattern();
@@ -90,6 +128,12 @@ public class FormServiceImpl implements FormService {
         throw new Operation("failed to add form");
     }
 
+    /**
+     * Method to get the count of form records created today.
+     * It calculates the start and end of the current day and queries the repository for the count of forms created within that time range.
+     *
+     * @return count of records created today
+     */
     private Long getTodayRecordCount() {
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay();
@@ -102,6 +146,12 @@ public class FormServiceImpl implements FormService {
         return formRepository.countRecordsCreatedToday(start, end);
     }
 
+    /**
+     * Method to generate the form ID pattern based on the current date and the number of forms created today.
+     * The form ID follows the pattern of yyyyMMdd-XXX, where XXX is the number of forms created today, padded to three digits.
+     *
+     * @return generated form ID pattern
+     */
     private String generateMyFormIdPattern() {
         Long todayFormCreatedCount = getTodayRecordCount();
         String dateString = DateUtils.getDateStringInPattern(AppConstant.DATE_yyyyMMdd);
@@ -116,25 +166,4 @@ public class FormServiceImpl implements FormService {
         return dateString + AppConstant.HYPHEN_F + end;
     }
 
-    @Override
-    public synchronized String addForm(Form form) throws Operation {
-        String formId = this.generateFormId();
-        form.setFormId(formId);
-
-        Form save = formRepository.save(form);
-        if (save.getFormId() == null) {
-            throw new Operation("failed to add form");
-        }
-
-        return save.getFormId();
-    }
-
-    @Override
-    public Form updateForm(String formId, Form form) throws Operation {
-        if (!formRepository.existsByFormId(formId)) {
-            throw new Operation("form not found");
-        }
-        form.setFormId(formId);
-        return formRepository.save(form);
-    }
 }

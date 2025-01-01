@@ -1,5 +1,6 @@
 package com.formsapp.service.impl;
 
+import com.formsapp.common.AppConstant;
 import com.formsapp.exception.Operation;
 import com.formsapp.model.Form;
 import com.formsapp.model.projection.SubmitsCount;
@@ -7,6 +8,7 @@ import com.formsapp.repository.FormFieldRepository;
 import com.formsapp.repository.FormRepository;
 import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.FormService;
+import com.formsapp.util.DateUtils;
 import com.formsapp.util.UUIDUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -72,7 +79,7 @@ public class FormServiceImpl implements FormService {
      * */
     private String generateFormId() throws Operation {
         try {
-            String formId = UUIDUtils.generateUUID();
+            String formId = generateMyFormIdPattern();
             while(formRepository.existsByFormId(formId)) {
                 formId = UUIDUtils.generateUUID();
             }
@@ -83,8 +90,34 @@ public class FormServiceImpl implements FormService {
         throw new Operation("failed to add form");
     }
 
+    private Long getTodayRecordCount() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.plusDays(1).atStartOfDay();
+
+        // Convert to Date if needed (for JPA or Hibernate)
+        Date start = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+        Date end = Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
+
+        return formRepository.countRecordsCreatedToday(start, end);
+    }
+
+    private String generateMyFormIdPattern() {
+        Long todayFormCreatedCount = getTodayRecordCount();
+        String dateString = DateUtils.getDateStringInPattern(AppConstant.DATE_yyyyMMdd);
+
+        String end = null;
+        if (todayFormCreatedCount <= 999) {
+            end = String.format("%03d", todayFormCreatedCount);
+        } else {
+            end = String.valueOf(todayFormCreatedCount);
+        }
+
+        return dateString + AppConstant.HYPHEN_F + end;
+    }
+
     @Override
-    public String addForm(Form form) throws Operation {
+    public synchronized String addForm(Form form) throws Operation {
         String formId = this.generateFormId();
         form.setFormId(formId);
 

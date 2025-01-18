@@ -21,7 +21,7 @@ public class WebSecurityConfig {
      * These endpoints are typically used for health checks, metrics, and Swagger UI.
      * </p>
      */
-    private static String[] ACTUATORS = new String[]{"/v3/api-docs",
+    private static String[] ACTUATORS = new String[]{"/v3/api-docs", "/v3/api-docs/*",
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/swagger-ui.html",

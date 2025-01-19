@@ -42,7 +42,8 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, Long> {
      * Finds all form submissions for a specific form ID, including submission details such as email and submission time.
      *
      * @param formId the ID of the form to find submissions for
-     * @return a list of {@link FormResponse} projections containing the email, submission ID, and creation date of each submission
+     * @param pageable the pagination information
+     * @return a paginated list of {@link FormResponse} projections containing the email, submission ID, and creation date of each submission
      */
     @Query("SELECT f.email AS email, f.subId AS subId, f.createdDate as createdDate FROM FormSubmit f WHERE f.formId = :formId")
     Page<FormResponse> findAllByFormId(String formId, Pageable pageable);

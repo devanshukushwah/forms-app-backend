@@ -5,6 +5,10 @@ import com.formsapp.model.projection.FormResponse;
 import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,7 +51,18 @@ public class FormSubmitServiceImpl implements FormSubmitService {
      * {@inheritDoc}
      */
     @Override
-    public List<FormResponse> getResponses(String formId) {
-        return formSubmitRepository.findAllByFormId(formId);
+    public Page<FormResponse> getResponses(String formId, int page, int size, String sortField, String sortOrder) {
+        // Create Sort object based on field and direction
+        Sort sort = Sort.by(Sort.Order.by(sortField));
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        // Create Pageable object with page number, page size, and sort order
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return formSubmitRepository.findAllByFormId(formId, pageable);
     }
 }

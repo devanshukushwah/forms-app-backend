@@ -2,6 +2,7 @@ package com.formsapp.service;
 
 import com.formsapp.model.FormSubmit;
 import com.formsapp.model.projection.FormResponse;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -43,7 +44,11 @@ public interface FormSubmitService {
      * Retrieves all responses for a specific form.
      *
      * @param formId the ID of the form to retrieve responses for
-     * @return a list of {@link FormResponse} projections containing form responses
+     * @param page the page number to retrieve
+     * @param size the number of responses per page
+     * @param sortField the field to sort the responses by
+     * @param sortOrder the order to sort the responses (e.g., "asc" or "desc")
+     * @return a {@link Page} of {@link FormResponse} projections containing form responses
      */
-    List<FormResponse> getResponses(String formId);
+    Page<FormResponse> getResponses(String formId, int page, int size, String sortField, String sortOrder);
 }

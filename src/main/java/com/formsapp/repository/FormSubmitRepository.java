@@ -3,6 +3,8 @@ package com.formsapp.repository;
 import com.formsapp.model.FormSubmit;
 import com.formsapp.model.projection.FormResponse;
 import com.formsapp.model.projection.SubmitsCount;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -43,7 +45,7 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, Long> {
      * @return a list of {@link FormResponse} projections containing the email, submission ID, and creation date of each submission
      */
     @Query("SELECT f.email AS email, f.subId AS subId, f.createdDate as createdDate FROM FormSubmit f WHERE f.formId = :formId")
-    List<FormResponse> findAllByFormId(String formId);
+    Page<FormResponse> findAllByFormId(String formId, Pageable pageable);
 
     /**
      * Finds the count of form submissions for a list of form IDs.

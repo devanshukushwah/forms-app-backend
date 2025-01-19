@@ -68,6 +68,8 @@ public class FormServiceImpl implements FormService {
         // Create Pageable object with page number, page size, and sort order
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Form> finalResult = formRepository.findAll(pageable);
+
+        // for counting submit response.
         if (finalResult != null && !finalResult.getContent().isEmpty()) {
             List<Form> content = finalResult.getContent();
             List<SubmitsCount> allCountsByFormIds = formSubmitRepository.findAllCountsByFormIds(content.stream().map(Form::getFormId).collect(Collectors.toList()));

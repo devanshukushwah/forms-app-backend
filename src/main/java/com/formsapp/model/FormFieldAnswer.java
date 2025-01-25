@@ -50,4 +50,14 @@ public class FormFieldAnswer {
     @JoinColumn(name = "form_submit_id", nullable = false)
     @JsonBackReference
     private FormSubmit formSubmit;
+
+    @Override
+    public String toString() {
+        return "FormFieldAnswer{" +
+                "ansId=" + ansId +
+                ", fieldId=" + fieldId +
+                ", attrId=" + attrId +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }

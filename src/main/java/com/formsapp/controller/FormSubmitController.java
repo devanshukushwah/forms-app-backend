@@ -1,9 +1,11 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
+import com.formsapp.exception.FormException;
 import com.formsapp.model.FormSubmit;
 import com.formsapp.model.core.CustomResponse;
 import com.formsapp.service.FormSubmitService;
+import com.formsapp.service.LoggedInUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,9 @@ public class FormSubmitController extends BaseController {
 
     @Autowired
     private FormSubmitService formSubmitService;
+
+    @Autowired
+    private LoggedInUserService loggedInUserService;
 
     /**
      * Fetches a form submission by its ID.
@@ -55,9 +60,10 @@ public class FormSubmitController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the status of the form submission.
      */
     @RequestMapping(method = RequestMethod.POST, path = "formId/{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody FormSubmit formSubmit) {
-        Boolean res = formSubmitService.addSubmit(formSubmit);
-        if(res) {
+    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody FormSubmit formSubmit) throws FormException {
+        formSubmit.setEmail(loggedInUserService.getLoggedInUserEmail());
+        formSubmit.setFormId(formId);
+        if(formSubmitService.addSubmit(formSubmit)) {
             return responseOkDataMessage(true, AppMessage.FORM_SUBMIT.getSubmitSuccessfully());
         } else {
             return responseFailDataMessage(false, AppMessage.FORM_SUBMIT.getSubmitFailed());

@@ -2,6 +2,7 @@ package com.formsapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -40,6 +41,7 @@ public class WebSecurityConfig {
      * @throws Exception If any configuration exception occurs.
      */
     @Bean
+    @Profile("!local")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors()  // Enables CORS support
@@ -51,5 +53,11 @@ public class WebSecurityConfig {
                 .oauth2ResourceServer()
                 .jwt();  // Configures JWT authentication for OAuth2 resource server
         return http.build();
+    }
+
+    @Bean
+    @Profile("local")
+    public SecurityFilterChain filterChainLocal(HttpSecurity http) throws Exception {
+        return http.authorizeHttpRequests().anyRequest().permitAll().and().csrf().disable().build();
     }
 }

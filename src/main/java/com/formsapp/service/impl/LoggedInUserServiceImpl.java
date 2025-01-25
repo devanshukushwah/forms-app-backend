@@ -1,20 +1,22 @@
-package com.formsapp.util;
+package com.formsapp.service.impl;
 
 import com.formsapp.exception.FormException;
+import com.formsapp.service.LoggedInUserService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
 
-public class LoggedInUserUtils {
+@Profile("!local")
+@Service
+public class LoggedInUserServiceImpl implements LoggedInUserService {
 
     /**
-     * Retrieves the email of the currently logged-in user from the security context.
-     * This method assumes that the authentication object contains a JWT (JSON Web Token) with an "email" claim.
-     *
-     * @return the email of the currently logged-in user
-     * @throws FormException if the user is not authenticated or the email claim is not found
+     * {@inheritDoc}
      */
-    public static String getLoggedInUserEmail() throws FormException {
+    @Override
+    public String getLoggedInUserEmail() throws FormException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
             Jwt jwt = (Jwt) authentication.getPrincipal();

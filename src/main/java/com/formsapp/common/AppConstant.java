@@ -25,4 +25,6 @@ public class AppConstant {
      * </p>
      */
     public static final String HYPHEN_F = "-F";
+
+    public static final String KAFKA_TOPIC_FORMS_APP = "TOPIC-FORMS-APP";
 }

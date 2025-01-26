@@ -8,13 +8,15 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import java.util.concurrent.CompletableFuture;
+
 @Component
 public class KafkaMessageProducer {
 
     @Autowired
     KafkaTemplate<String, FormSubmit> kafkaTemplate;
 
-    public ListenableFuture<SendResult<String, FormSubmit>> sendFormSubmitMessage(FormSubmit formSubmit) {
+    public CompletableFuture<SendResult<String, FormSubmit>> sendFormSubmitMessage(FormSubmit formSubmit) {
         return kafkaTemplate.send(AppConstant.KAFKA_TOPIC_FORMS_APP, formSubmit);
     }
 }

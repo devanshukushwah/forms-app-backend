@@ -8,6 +8,8 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
 
@@ -22,12 +24,11 @@ public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
      */
     @Override
     public Boolean addSubmit(FormSubmit formSubmit) {
-        ListenableFuture<SendResult<String, FormSubmit>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(formSubmit);
-        sendMessage.addCallback(result -> {
-            System.out.println("success");
-        }, ex -> {
-            System.out.println("false");
-        });
+        CompletableFuture<SendResult<String, FormSubmit>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(formSubmit);
+//        sendMessage.whenComplete((result, ex) -> {
+//            if (ex == null) {
+//            }
+//        });
         return true;
     }
 }

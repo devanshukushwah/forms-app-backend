@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM maven:3.9.4-openjdk-21-slim AS builder
+FROM maven:3.9.4-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create the runtime image
-FROM eclipse-temurin:21-jre-slim
+FROM amazoncorretto:21-alpine
 
 # Set a working directory
 WORKDIR /app

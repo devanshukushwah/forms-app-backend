@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * Controller for handling form submission-related requests.
  * <p>
@@ -39,7 +41,7 @@ public class FormSubmitController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the form submission data and a success/failure message.
      */
     @RequestMapping(method = RequestMethod.GET, path = "{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("subId") Long subId) {
+    public ResponseEntity<CustomResponse<FormSubmit>> getSubmit(@PathVariable("subId") UUID subId) {
         FormSubmit formSubmit = formSubmitService.getSubmit(subId);
         if(formSubmit != null) {
             return responseOk(formSubmit);

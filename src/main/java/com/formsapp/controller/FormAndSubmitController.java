@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 /**
  * Controller for handling form submission related requests.
  * <p>
@@ -47,7 +49,7 @@ public class FormAndSubmitController extends BaseController {
      * @throws FormException If the form submission cannot be retrieved or if the associated form is not found.
      */
     @GetMapping(path = "{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormAndSubmit>> getResponse(@PathVariable(name = "subId") Long subId) throws FormException {
+    public ResponseEntity<CustomResponse<FormAndSubmit>> getResponse(@PathVariable(name = "subId") UUID subId) throws FormException {
         FormSubmit submit = formSubmitService.getSubmit(subId);
         if (submit != null) {
             FormAndSubmit formAndSubmit = new FormAndSubmit();

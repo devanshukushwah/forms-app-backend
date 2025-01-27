@@ -1,6 +1,7 @@
 package com.formsapp.model.projection;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Projection interface for the form submission response.
@@ -24,7 +25,7 @@ public interface FormResponse {
      *
      * @return the ID of the form submission.
      */
-    Long getSubId();
+    UUID getSubId();
 
     /**
      * Gets the date and time when the form submission was created.

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Repository interface for interacting with the `FormSubmit` entity.
@@ -18,7 +19,7 @@ import java.util.List;
  * </p>
  */
 @Repository
-public interface FormSubmitRepository extends JpaRepository<FormSubmit, Long> {
+public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
 
     /**
      * Finds a form submission by its associated form ID and email address.
@@ -36,7 +37,7 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, Long> {
      * @param formId the ID of the form that the submission belongs to
      * @return the {@link FormSubmit} entity associated with the given subId and formId, or {@code null} if not found
      */
-    FormSubmit findBySubIdAndFormId(Long subId, String formId);
+    FormSubmit findBySubIdAndFormId(UUID subId, String formId);
 
     /**
      * Finds all form submissions for a specific form ID, including submission details such as email and submission time.
@@ -63,5 +64,5 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, Long> {
      * @param subId the submission ID to find
      * @return the {@link FormSubmit} entity associated with the given submission ID, or {@code null} if not found
      */
-    FormSubmit findBySubId(Long subId);
+    FormSubmit findBySubId(UUID subId);
 }

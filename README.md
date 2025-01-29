@@ -2,6 +2,14 @@
 
 FormsApp is a web-based application that allows users to create, submit, and track forms. It provides functionalities such as form creation, field definition, form submission, and form response tracking, all using RESTful APIs. The application supports user authentication, and forms can be dynamically generated and managed.
 
+## Flow
+![flow](https://raw.githubusercontent.com/devanshukushwah/forms-app-backend/refs/heads/main/images/flow.svg)
+
+## Application Repositories
+- [Form App Angular UI](https://github.com/devanshukushwah/forms-app-ui)
+- [Form App Backend Application](https://github.com/devanshukushwah/forms-app-backend)
+- [Form App Kafka Consumer](https://github.com/devanshukushwah/forms-app-consumer)
+
 ## Features
 
 - **Form Management**: Create and update forms with customizable fields.
@@ -13,30 +21,25 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 
 ## Technologies Used
 
-- **Backend**: Java, Spring Boot
+- **Backend**: Java 21, Spring Boot 3
 - **Database**: Relational Database (Hibernate + JPA)
 - **Authentication**: OAuth2, JWT (JSON Web Token)
 - **API Documentation**: Swagger (or OpenAPI)
 - **Testing**: JUnit, Mockito
-- **Logging**: SLF4J with Logback
-
-## Flow
-![flow](images/flow.svg)
+- **Logging**: Log4J2
 
 ## Installation
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/devanshukushwah/forms-app.git
-   cd forms-app
+   git clone https://github.com/devanshukushwah/forms-app-backend.git
+   cd forms-app-backend
    ```
-
-2.  Make sure you have Java 8+
     
-3.  You can run the application locally and application will be available at http://localhost:9080/.
+2. You can run the application locally and application will be available at http://localhost:9080/.
     
-4.  Ensure that your database is configured correctly in the application.properties file. You can modify it to match your database settings.
+3. Ensure that your database is configured correctly in the application.properties file. You can modify it to match your database settings.
     
 
 API Documentation

@@ -4,6 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -14,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * </p>
  */
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     /**
@@ -44,20 +49,22 @@ public class WebSecurityConfig {
     @Profile("!local")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors()  // Enables CORS support
-                .and()
-                .authorizeHttpRequests()
-                .antMatchers(ACTUATORS).permitAll()  // Public access to actuator-related endpoints
-                .anyRequest().authenticated()       // All other endpoints require authentication
-                .and()
-                .oauth2ResourceServer()
-                .jwt();  // Configures JWT authentication for OAuth2 resource server
+            .cors(AbstractHttpConfigurer::disable) // Enables CORS support
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers(ACTUATORS).permitAll() // Public access to actuator-related endpoints
+                    .anyRequest().authenticated()          // All other endpoints require authentication
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2
+                    .jwt(jwt -> jwt
+                            .jwtAuthenticationConverter(new JwtAuthenticationConverter()) // Custom JWT conversion
+                    )
+            );
         return http.build();
     }
 
     @Bean
     @Profile("local")
     public SecurityFilterChain filterChainLocal(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests().anyRequest().permitAll().and().csrf().disable().build();
+        return http.cors(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> auth.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable).build();
     }
 }

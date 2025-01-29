@@ -1,17 +1,17 @@
 # Stage 1: Build the application
-FROM maven:3.8.5-openjdk-8-slim AS builder
+FROM maven:3.9.4-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 
 # Copy Maven project files
-COPY pom.xml .
+COPY pom.xml ./
 COPY src ./src
 
 # Package the application
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create the runtime image
-FROM openjdk:8-jre-slim
+FROM amazoncorretto:21-alpine
 
 # Set a working directory
 WORKDIR /app

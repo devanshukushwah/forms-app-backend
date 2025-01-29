@@ -5,6 +5,7 @@ import com.formsapp.model.projection.FormResponse;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Service interface for managing form submissions.
@@ -38,7 +39,7 @@ public interface FormSubmitService {
      * @param subId the ID of the form submission
      * @return the {@link FormSubmit} entity for the corresponding submission ID, or {@code null} if not found
      */
-    FormSubmit getSubmit(Long subId);
+    FormSubmit getSubmit(UUID subId);
 
     /**
      * Retrieves all responses for a specific form.

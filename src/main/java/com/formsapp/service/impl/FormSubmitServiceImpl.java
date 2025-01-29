@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class FormSubmitServiceImpl implements FormSubmitService {
 
@@ -26,7 +28,7 @@ public class FormSubmitServiceImpl implements FormSubmitService {
             formSubmit.getAnswers().forEach((answer) -> answer.setFormSubmit(formSubmit));
         }
         FormSubmit save = formSubmitRepository.save(formSubmit);
-        return save.getSubId() > 0;
+        return save.getSubId() != null;
     }
 
     /**
@@ -41,7 +43,7 @@ public class FormSubmitServiceImpl implements FormSubmitService {
      * {@inheritDoc}
      */
     @Override
-    public FormSubmit getSubmit(Long subId) {
+    public FormSubmit getSubmit(UUID subId) {
         return formSubmitRepository.findBySubId(subId);
     }
 

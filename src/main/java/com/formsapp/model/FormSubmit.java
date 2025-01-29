@@ -1,14 +1,15 @@
 package com.formsapp.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Entity representing a submission of a form.
@@ -28,7 +29,7 @@ public class FormSubmit {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long subId;
+    private UUID subId;
 
     /**
      * The ID of the form that is being submitted.

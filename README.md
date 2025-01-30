@@ -32,10 +32,10 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 ## Changelogs
 
 ### 2.0.0
-- updated to `JDK 21` and `Springboot 3.4.2`
+- Updated to `JDK 21` and `Springboot 3.4.2`
 
 ### 1.0
-- built using `JDK 8` and `Springboot 2.7.18`
+- Built using `JDK 8` and `Springboot 2.7.18`
 
 ## Installation
 

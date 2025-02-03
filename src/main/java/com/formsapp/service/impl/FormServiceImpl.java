@@ -85,6 +85,35 @@ public class FormServiceImpl implements FormService {
      * {@inheritDoc}
      */
     @Override
+    public Page<Form> getAllFormByCreatedBy(String createdBy, int page, int size, String sortField, String sortOrder) {
+        // Create Sort object based on field and direction
+        Sort sort = Sort.by(Sort.Order.by(sortField));
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            sort = sort.descending();
+        } else {
+            sort = sort.ascending();
+        }
+
+        // Create Pageable object with page number, page size, and sort order
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<Form> finalResult = formRepository.findAllByCreatedBy(createdBy, pageable);
+
+        // for counting submit response.
+        if (finalResult != null && !finalResult.getContent().isEmpty()) {
+            List<Form> content = finalResult.getContent();
+            List<SubmitsCount> allCountsByFormIds = formSubmitRepository.findAllCountsByFormIds(content.stream().map(Form::getFormId).collect(Collectors.toList()));
+            Map<String, Long> collect = allCountsByFormIds.stream().collect(Collectors.toMap(SubmitsCount::getFormId, SubmitsCount::getSubmitsCount));
+            content.forEach(item -> {
+                item.setSubmitsCount(collect.get(item.getFormId()));
+            });
+        }
+        return finalResult;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized String addForm(Form form) throws Operation {
         String formId = this.generateFormId();
         form.setFormId(formId);

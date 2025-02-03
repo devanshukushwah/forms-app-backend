@@ -45,6 +45,15 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     Page<Form> findAll(Pageable pageable);
 
     /**
+     * Retrieves a paginated list of all forms.
+     *
+     * @param pageable the pagination information
+     * @return a {@link Page} of {@link Form} entities
+     */
+    Page<Form> findAllByCreatedBy(String createdBy, Pageable pageable);
+
+
+    /**
      * Counts the number of forms created within a specific date range (from the start to the end of the day).
      *
      * @param startOfDay the start of the day to count records from

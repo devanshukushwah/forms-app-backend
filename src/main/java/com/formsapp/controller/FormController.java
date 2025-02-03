@@ -72,8 +72,9 @@ public class FormController extends BaseController {
             @RequestParam(defaultValue = "10") int size, // Page size (default is 10)
             @RequestParam(defaultValue = "createdDate") String sortField,  // Sorting field (default is "name")
             @RequestParam(defaultValue = "desc") String sortOrder
-    ) {
-        Page<Form> forms = formService.getAllForm(page, size, sortField, sortOrder);
+    ) throws FormException {
+        String loggedInUser = loggedInUserService.getLoggedInUserEmail();
+        Page<Form> forms = formService.getAllFormByCreatedBy(loggedInUser, page, size, sortField, sortOrder);
         if(forms != null) {
             return responseOk(forms);
         }

@@ -34,6 +34,19 @@ public interface FormService {
     Page<Form> getAllForm(int page, int size, String sortField, String sortOrder);
 
     /**
+     * Retrieves all forms with pagination and sorting.
+     *
+     * @param createdBy user who created this form 
+     * @param page the page number to retrieve
+     * @param size the number of records per page
+     * @param sortField the field by which to sort the results
+     * @param sortOrder the order of sorting ("asc" for ascending, "desc" for descending)
+     * @return a {@link Page} object containing the paginated forms
+     */
+    Page<Form> getAllFormByCreatedBy(String createdBy, int page, int size, String sortField, String sortOrder);
+
+
+    /**
      * Adds a new form to the system.
      *
      * @param form the {@link Form} entity to be added

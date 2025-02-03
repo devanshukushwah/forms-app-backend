@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -27,6 +28,7 @@ public class FormSubmitServiceImpl implements FormSubmitService {
         if (formSubmit.getAnswers() != null) {
             formSubmit.getAnswers().forEach((answer) -> answer.setFormSubmit(formSubmit));
         }
+        formSubmit.setCreatedDate(new Date()); // set date.
         FormSubmit save = formSubmitRepository.save(formSubmit);
         return save.getSubId() != null;
     }

@@ -49,14 +49,6 @@ public class FormSubmit {
     private Date createdDate;
 
     /**
-     * Callback to set the creation date before persisting the entity.
-     */
-    @PrePersist
-    protected void onCreate() {
-        this.createdDate = new Date();
-    }
-
-    /**
      * List of answers provided in the form submission.
      * Each answer corresponds to a specific form field.
      * This is a one-to-many relationship with the FormFieldAnswer entity.

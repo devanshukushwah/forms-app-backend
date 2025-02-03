@@ -3,14 +3,17 @@ package com.formsapp.service.impl;
 import com.formsapp.model.FormSubmit;
 import com.formsapp.producer.KafkaMessageProducer;
 import com.formsapp.service.FormSubmitKafkaService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@Slf4j
 public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
 
     @Autowired
@@ -24,11 +27,15 @@ public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
      */
     @Override
     public Boolean addSubmit(FormSubmit formSubmit) {
+        // add created date.
+        formSubmit.setCreatedDate(new Date());
+
         CompletableFuture<SendResult<String, FormSubmit>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(formSubmit);
-//        sendMessage.whenComplete((result, ex) -> {
-//            if (ex == null) {
-//            }
-//        });
+        sendMessage.whenComplete((result, ex) -> {
+            if (ex != null) {
+                log.error("Failed to send message: {}", formSubmit.toString(), ex);
+            }
+        });
         return true;
     }
 }

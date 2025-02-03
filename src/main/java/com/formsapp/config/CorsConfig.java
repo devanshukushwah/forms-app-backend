@@ -18,7 +18,6 @@ import java.util.Collections;
  * </p>
  */
 @Configuration
-@Profile({"dev", "qa", "prod"})
 public class CorsConfig {
 
     /**
@@ -46,7 +45,7 @@ public class CorsConfig {
      *
      * @return A {@link CorsConfiguration} with default permit settings for local profile.
      */
-    @Profile({"local", "dev"})
+    @Profile({"local", "dev", "test"})
     @Bean
     public CorsConfiguration corsConfigurationLocal() {
         CorsConfiguration config = new CorsConfiguration();

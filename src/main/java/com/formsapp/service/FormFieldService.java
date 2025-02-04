@@ -1,7 +1,7 @@
 package com.formsapp.service;
 
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormField;
+import com.formsapp.entity.FormField;
 
 /**
  * Service interface for handling form field operations.

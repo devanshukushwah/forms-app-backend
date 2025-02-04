@@ -1,7 +1,7 @@
 package com.formsapp.service.impl;
 
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormField;
+import com.formsapp.entity.FormField;
 import com.formsapp.repository.FormFieldRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

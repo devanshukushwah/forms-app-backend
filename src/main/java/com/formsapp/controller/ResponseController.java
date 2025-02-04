@@ -1,16 +1,14 @@
 package com.formsapp.controller;
 
-import com.formsapp.model.core.CustomResponse;
-import com.formsapp.model.projection.FormResponse;
-import com.formsapp.model.response.SubmitResponse;
+import com.formsapp.entity.core.CustomResponse;
+import com.formsapp.entity.projection.FormResponse;
+import com.formsapp.entity.response.SubmitResponse;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Controller for handling responses to form submissions.

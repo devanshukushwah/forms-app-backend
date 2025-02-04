@@ -1,6 +1,6 @@
-package com.formsapp.model.response;
+package com.formsapp.entity.response;
 
-import com.formsapp.model.projection.FormResponse;
+import com.formsapp.entity.projection.FormResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

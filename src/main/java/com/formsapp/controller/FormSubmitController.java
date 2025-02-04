@@ -2,8 +2,8 @@ package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormSubmit;
-import com.formsapp.model.core.CustomResponse;
+import com.formsapp.entity.FormSubmit;
+import com.formsapp.entity.core.CustomResponse;
 import com.formsapp.service.FormSubmitService;
 import com.formsapp.service.LoggedInUserService;
 import org.springframework.beans.factory.annotation.Autowired;

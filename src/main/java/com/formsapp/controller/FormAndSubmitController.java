@@ -1,11 +1,12 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppErrorMessage;
+import com.formsapp.dto.FormDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.Form;
-import com.formsapp.model.FormAndSubmit;
-import com.formsapp.model.FormSubmit;
-import com.formsapp.model.core.CustomResponse;
+import com.formsapp.entity.Form;
+import com.formsapp.entity.FormAndSubmit;
+import com.formsapp.entity.FormSubmit;
+import com.formsapp.entity.core.CustomResponse;
 import com.formsapp.service.FormService;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,8 @@ public class FormAndSubmitController extends BaseController {
             FormAndSubmit formAndSubmit = new FormAndSubmit();
             formAndSubmit.setSubmit(submit);
             if (submit.getFormId() != null) {
-                Form form = formService.getForm(submit.getFormId());
-                formAndSubmit.setForm(form);
+                FormDTO formDto = formService.getForm(submit.getFormId());
+                formAndSubmit.setForm(formDto);
             }
             return responseOk(formAndSubmit);
         }

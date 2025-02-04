@@ -1,6 +1,6 @@
 package com.formsapp.repository;
 
-import com.formsapp.model.Form;
+import com.formsapp.entity.Form;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

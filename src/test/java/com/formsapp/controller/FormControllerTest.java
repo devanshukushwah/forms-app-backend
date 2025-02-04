@@ -1,6 +1,6 @@
 package com.formsapp.controller;
 
-import com.formsapp.model.Form;
+import com.formsapp.entity.Form;
 import com.formsapp.repository.FormRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

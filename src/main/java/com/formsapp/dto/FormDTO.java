@@ -1,0 +1,27 @@
+package com.formsapp.dto;
+
+
+import com.formsapp.entity.FormField;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class FormDTO {
+    private String formId;
+    private String title;
+    private String description;
+    private Date createdDate;
+    private String createdBy;
+    private Date changedDate;
+    private String changedBy;
+    private List<FormField> formFields;
+    private Long submitsCount;
+}

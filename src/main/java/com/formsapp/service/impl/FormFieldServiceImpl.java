@@ -1,7 +1,7 @@
 package com.formsapp.service.impl;
 
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormField;
+import com.formsapp.entity.FormField;
 import com.formsapp.repository.FormFieldRepository;
 import com.formsapp.service.FormFieldService;
 import org.springframework.beans.factory.annotation.Autowired;

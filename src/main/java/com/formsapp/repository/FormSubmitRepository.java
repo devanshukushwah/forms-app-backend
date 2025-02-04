@@ -1,8 +1,8 @@
 package com.formsapp.repository;
 
-import com.formsapp.model.FormSubmit;
-import com.formsapp.model.projection.FormResponse;
-import com.formsapp.model.projection.SubmitsCount;
+import com.formsapp.entity.FormSubmit;
+import com.formsapp.entity.projection.FormResponse;
+import com.formsapp.entity.projection.SubmitsCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

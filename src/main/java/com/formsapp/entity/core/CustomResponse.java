@@ -1,4 +1,4 @@
-package com.formsapp.model.core;
+package com.formsapp.entity.core;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

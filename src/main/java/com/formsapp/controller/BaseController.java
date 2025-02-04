@@ -2,7 +2,7 @@ package com.formsapp.controller;
 
 import com.formsapp.common.AppErrorMessage;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.core.CustomResponse;
+import com.formsapp.entity.core.CustomResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;

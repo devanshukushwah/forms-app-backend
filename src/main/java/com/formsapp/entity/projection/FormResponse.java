@@ -1,4 +1,4 @@
-package com.formsapp.model.projection;
+package com.formsapp.entity.projection;
 
 import java.util.Date;
 import java.util.UUID;

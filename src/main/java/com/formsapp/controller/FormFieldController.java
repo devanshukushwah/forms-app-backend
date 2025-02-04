@@ -2,8 +2,8 @@ package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormField;
-import com.formsapp.model.core.CustomResponse;
+import com.formsapp.entity.FormField;
+import com.formsapp.entity.core.CustomResponse;
 import com.formsapp.service.FormFieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

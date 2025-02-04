@@ -1,10 +1,9 @@
 package com.formsapp.service;
 
-import com.formsapp.model.FormSubmit;
-import com.formsapp.model.projection.FormResponse;
+import com.formsapp.entity.FormSubmit;
+import com.formsapp.entity.projection.FormResponse;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.UUID;
 
 /**

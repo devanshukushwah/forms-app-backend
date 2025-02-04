@@ -1,6 +1,7 @@
 package com.formsapp.producer;
 
 import com.formsapp.common.AppConstant;
+import com.formsapp.dto.FormSubmitDTO;
 import com.formsapp.entity.FormSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,7 +16,7 @@ public class KafkaMessageProducer {
     @Autowired
     KafkaTemplate<String, FormSubmit> kafkaTemplate;
 
-    public CompletableFuture<SendResult<String, FormSubmit>> sendFormSubmitMessage(FormSubmit formSubmit) {
-        return kafkaTemplate.send(AppConstant.KAFKA_TOPIC_FORMS_APP, formSubmit);
+    public CompletableFuture<SendResult<String, FormSubmitDTO>> sendFormSubmitMessage(FormSubmitDTO formSubmitDto) {
+        return kafkaTemplate.send(AppConstant.KAFKA_TOPIC_FORMS_APP, formSubmitDto);
     }
 }

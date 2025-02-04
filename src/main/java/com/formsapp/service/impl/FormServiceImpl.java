@@ -122,15 +122,17 @@ public class FormServiceImpl implements FormService {
      */
     @Override
     public synchronized String addForm(FormDTO formDto) throws Operation {
-        String formId = this.generateFormId();
-        formDto.setFormId(formId);
+        Form form = FormMapper.dtoToEntity(formDto);
 
-        Form save = formRepository.save(FormMapper.dtoToEntity(formDto));
-        if (save.getFormId() == null) {
+        String formId = this.generateFormId();
+        form.setFormId(formId);
+
+        Form result = formRepository.save(form);
+        if (result.getFormId() == null) {
             throw new Operation("failed to add form");
         }
 
-        return save.getFormId();
+        return result.getFormId();
     }
 
     /**
@@ -141,9 +143,12 @@ public class FormServiceImpl implements FormService {
         if (!formRepository.existsByFormId(formId)) {
             throw new Operation("form not found");
         }
-        formDto.setFormId(formId);
 
-        Form save = formRepository.save(FormMapper.dtoToEntity(formDto));
+        Form form = FormMapper.dtoToEntity(formDto);
+
+        form.setFormId(formId);
+
+        Form save = formRepository.save(form);
         return FormMapper.entityToDto(save);
     }
 

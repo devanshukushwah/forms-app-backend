@@ -1,5 +1,6 @@
 package com.formsapp.service;
 
+import com.formsapp.dto.FormSubmitDTO;
 import com.formsapp.entity.FormSubmit;
 
 public interface FormSubmitKafkaService {
@@ -10,5 +11,5 @@ public interface FormSubmitKafkaService {
      * @param formSubmit the {@link FormSubmit} entity containing the form submission data
      * @return {@code true} if the submission was successfully added, {@code false} otherwise
      */
-    Boolean addSubmit(FormSubmit formSubmit);
+    Boolean addSubmit(FormSubmitDTO formSubmitDto);
 }

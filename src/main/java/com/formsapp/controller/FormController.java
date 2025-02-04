@@ -4,7 +4,7 @@ import com.formsapp.common.AppMessage;
 import com.formsapp.dto.FormDTO;
 import com.formsapp.exception.FormException;
 import com.formsapp.entity.Form;
-import com.formsapp.entity.core.CustomResponse;
+import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormService;
 import com.formsapp.service.LoggedInUserService;
 import lombok.extern.slf4j.Slf4j;

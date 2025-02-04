@@ -2,11 +2,10 @@ package com.formsapp.controller;
 
 import com.formsapp.common.AppErrorMessage;
 import com.formsapp.dto.FormDTO;
+import com.formsapp.dto.FormSubmitDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.entity.Form;
 import com.formsapp.entity.FormAndSubmit;
-import com.formsapp.entity.FormSubmit;
-import com.formsapp.entity.core.CustomResponse;
+import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormService;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class FormAndSubmitController extends BaseController {
      */
     @GetMapping(path = "{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<FormAndSubmit>> getResponse(@PathVariable(name = "subId") UUID subId) throws FormException {
-        FormSubmit submit = formSubmitService.getSubmit(subId);
+        FormSubmitDTO submit = formSubmitService.getSubmit(subId);
         if (submit != null) {
             FormAndSubmit formAndSubmit = new FormAndSubmit();
             formAndSubmit.setSubmit(submit);

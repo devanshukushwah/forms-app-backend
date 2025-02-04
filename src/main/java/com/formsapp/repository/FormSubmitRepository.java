@@ -1,7 +1,7 @@
 package com.formsapp.repository;
 
 import com.formsapp.entity.FormSubmit;
-import com.formsapp.entity.projection.FormResponse;
+import com.formsapp.entity.projection.Response;
 import com.formsapp.entity.projection.SubmitsCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,10 +44,10 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
      *
      * @param formId the ID of the form to find submissions for
      * @param pageable the pagination information
-     * @return a paginated list of {@link FormResponse} projections containing the email, submission ID, and creation date of each submission
+     * @return a paginated list of {@link Response} projections containing the email, submission ID, and creation date of each submission
      */
     @Query("SELECT f.email AS email, f.subId AS subId, f.createdDate as createdDate FROM FormSubmit f WHERE f.formId = :formId")
-    Page<FormResponse> findAllByFormId(String formId, Pageable pageable);
+    Page<Response> findAllByFormId(String formId, Pageable pageable);
 
     /**
      * Finds the count of form submissions for a list of form IDs.

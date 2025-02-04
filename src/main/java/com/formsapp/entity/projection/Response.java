@@ -11,7 +11,7 @@ import java.util.UUID;
  * data sources, without exposing the entire entity.
  * </p>
  */
-public interface FormResponse {
+public interface Response {
 
     /**
      * Gets the email associated with the form submission.

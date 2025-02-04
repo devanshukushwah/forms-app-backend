@@ -1,5 +1,6 @@
 package com.formsapp.service.impl;
 
+import com.formsapp.dto.FormSubmitDTO;
 import com.formsapp.entity.FormSubmit;
 import com.formsapp.producer.KafkaMessageProducer;
 import com.formsapp.service.FormSubmitKafkaService;
@@ -25,14 +26,14 @@ public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
      * @return {@code true} if the submission was successfully added, {@code false} otherwise
      */
     @Override
-    public Boolean addSubmit(FormSubmit formSubmit) {
+    public Boolean addSubmit(FormSubmitDTO formSubmitDto) {
         // add created date.
-        formSubmit.setCreatedDate(new Date());
+        formSubmitDto.setCreatedDate(new Date());
 
-        CompletableFuture<SendResult<String, FormSubmit>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(formSubmit);
+        CompletableFuture<SendResult<String, FormSubmitDTO>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(formSubmitDto);
         sendMessage.whenComplete((result, ex) -> {
             if (ex != null) {
-                log.error("Failed to send message: {}", formSubmit.toString(), ex);
+                log.error("Failed to send message: {}", formSubmitDto, ex);
             }
         });
         return true;

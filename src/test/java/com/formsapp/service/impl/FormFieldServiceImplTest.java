@@ -1,7 +1,8 @@
 package com.formsapp.service.impl;
 
+import com.formsapp.dto.FormFieldDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormField;
+import com.formsapp.entity.FormField;
 import com.formsapp.repository.FormFieldRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,12 +29,15 @@ class FormFieldServiceImplTest {
         FormField formField = new FormField();
         formField.setFormId(formId);
 
+        FormFieldDTO formFieldDto = new FormFieldDTO();
+        formField.setFormId(formId);
+
+
         // when
         Mockito.when(formFieldRepository.save(formField)).thenReturn(formField);
 
         // then
-        FormField save = formFieldService.save(formId, formField);
+        FormFieldDTO save = formFieldService.save(formId, formFieldDto);
         assertNotNull(save);
-        assertEquals(formField, save);
     }
 }

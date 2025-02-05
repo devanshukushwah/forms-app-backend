@@ -1,9 +1,13 @@
 package com.formsapp.service.impl;
 
 import com.formsapp.common.AppConstant;
+import com.formsapp.dto.FormDTO;
+import com.formsapp.entity.FormField;
 import com.formsapp.exception.Operation;
-import com.formsapp.model.Form;
-import com.formsapp.model.projection.SubmitsCount;
+import com.formsapp.entity.Form;
+import com.formsapp.entity.projection.SubmitsCount;
+import com.formsapp.mapper.FormFieldMapper;
+import com.formsapp.mapper.FormMapper;
 import com.formsapp.repository.FormFieldRepository;
 import com.formsapp.repository.FormRepository;
 import com.formsapp.repository.FormSubmitRepository;
@@ -17,7 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -44,19 +47,23 @@ public class FormServiceImpl implements FormService {
      * {@inheritDoc}
      */
     @Override
-    public Form getForm(String formId) {
+    public FormDTO getForm(String formId) {
         Form form = formRepository.findByFormId(formId);
         if (form != null) {
-            form.setFormFields(formFieldRepository.findByFormId(formId));
+            // get form fields
+            List<FormField> formFields = formFieldRepository.findByFormId(formId);
+            FormDTO formDTO = FormMapper.entityToDto(form);
+            formDTO.setFormFields(formFields.stream().map(FormFieldMapper::entityToDto).collect(Collectors.toList()));
+            return formDTO;
         }
-        return form;
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Page<Form> getAllForm(int page, int size, String sortField, String sortOrder) {
+    public Page<FormDTO> getAllForm(int page, int size, String sortField, String sortOrder) {
         // Create Sort object based on field and direction
         Sort sort = Sort.by(Sort.Order.by(sortField));
         if ("desc".equalsIgnoreCase(sortOrder)) {
@@ -71,21 +78,16 @@ public class FormServiceImpl implements FormService {
 
         // for counting submit response.
         if (finalResult != null && !finalResult.getContent().isEmpty()) {
-            List<Form> content = finalResult.getContent();
-            List<SubmitsCount> allCountsByFormIds = formSubmitRepository.findAllCountsByFormIds(content.stream().map(Form::getFormId).collect(Collectors.toList()));
-            Map<String, Long> collect = allCountsByFormIds.stream().collect(Collectors.toMap(SubmitsCount::getFormId, SubmitsCount::getSubmitsCount));
-            content.forEach(item -> {
-                item.setSubmitsCount(collect.get(item.getFormId()));
-            });
+            return populateFormSubmitCount(finalResult.map(FormMapper::entityToDto));
         }
-        return finalResult;
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Page<Form> getAllFormByCreatedBy(String createdBy, int page, int size, String sortField, String sortOrder) {
+    public Page<FormDTO> getAllFormByCreatedBy(String createdBy, int page, int size, String sortField, String sortOrder) {
         // Create Sort object based on field and direction
         Sort sort = Sort.by(Sort.Order.by(sortField));
         if ("desc".equalsIgnoreCase(sortOrder)) {
@@ -100,13 +102,18 @@ public class FormServiceImpl implements FormService {
 
         // for counting submit response.
         if (finalResult != null && !finalResult.getContent().isEmpty()) {
-            List<Form> content = finalResult.getContent();
-            List<SubmitsCount> allCountsByFormIds = formSubmitRepository.findAllCountsByFormIds(content.stream().map(Form::getFormId).collect(Collectors.toList()));
-            Map<String, Long> collect = allCountsByFormIds.stream().collect(Collectors.toMap(SubmitsCount::getFormId, SubmitsCount::getSubmitsCount));
-            content.forEach(item -> {
-                item.setSubmitsCount(collect.get(item.getFormId()));
-            });
+            return populateFormSubmitCount(finalResult.map(FormMapper::entityToDto));
         }
+        return null;
+    }
+
+    private Page<FormDTO> populateFormSubmitCount(Page<FormDTO> finalResult) {
+        List<FormDTO> content = finalResult.getContent();
+        List<SubmitsCount> allCountsByFormIds = formSubmitRepository.findAllCountsByFormIds(content.stream().map(FormDTO::getFormId).collect(Collectors.toList()));
+        Map<String, Long> collect = allCountsByFormIds.stream().collect(Collectors.toMap(SubmitsCount::getFormId, SubmitsCount::getSubmitsCount));
+        content.forEach(item -> {
+            item.setSubmitsCount(collect.get(item.getFormId()));
+        });
         return finalResult;
     }
 
@@ -114,28 +121,35 @@ public class FormServiceImpl implements FormService {
      * {@inheritDoc}
      */
     @Override
-    public synchronized String addForm(Form form) throws Operation {
+    public synchronized String addForm(FormDTO formDto) throws Operation {
+        Form form = FormMapper.dtoToEntity(formDto);
+
         String formId = this.generateFormId();
         form.setFormId(formId);
 
-        Form save = formRepository.save(form);
-        if (save.getFormId() == null) {
+        Form result = formRepository.save(form);
+        if (result.getFormId() == null) {
             throw new Operation("failed to add form");
         }
 
-        return save.getFormId();
+        return result.getFormId();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Form updateForm(String formId, Form form) throws Operation {
+    public FormDTO updateForm(String formId, FormDTO formDto) throws Operation {
         if (!formRepository.existsByFormId(formId)) {
             throw new Operation("form not found");
         }
+
+        Form form = FormMapper.dtoToEntity(formDto);
+
         form.setFormId(formId);
-        return formRepository.save(form);
+
+        Form save = formRepository.save(form);
+        return FormMapper.entityToDto(save);
     }
 
     /**

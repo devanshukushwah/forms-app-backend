@@ -1,9 +1,9 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
+import com.formsapp.dto.FormDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.Form;
-import com.formsapp.model.core.CustomResponse;
+import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormService;
 import com.formsapp.service.LoggedInUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +43,10 @@ public class FormController extends BaseController {
      *         or an error message if the form is not found.
      */
     @RequestMapping(method = RequestMethod.GET, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Form>> getForms(@PathVariable String formId) {
-        Form form = formService.getForm(formId);
-        if(form != null) {
-            return responseOk(form);
+    public ResponseEntity<CustomResponse<FormDTO>> getForms(@PathVariable String formId) {
+        FormDTO formDto = formService.getForm(formId);
+        if(formDto != null) {
+            return responseOk(formDto);
         }
         return responseFailDataMessage(null, AppMessage.FORM.getNotFound());
     }
@@ -67,14 +67,14 @@ public class FormController extends BaseController {
      *         or an error message if no forms are found.
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Page<Form>>> getAllForms(
+    public ResponseEntity<CustomResponse<Page<FormDTO>>> getAllForms(
             @RequestParam(defaultValue = "0") int page,  // Page number (default is 0)
             @RequestParam(defaultValue = "10") int size, // Page size (default is 10)
             @RequestParam(defaultValue = "createdDate") String sortField,  // Sorting field (default is "name")
             @RequestParam(defaultValue = "desc") String sortOrder
     ) throws FormException {
         String loggedInUser = loggedInUserService.getLoggedInUserEmail();
-        Page<Form> forms = formService.getAllFormByCreatedBy(loggedInUser, page, size, sortField, sortOrder);
+        Page<FormDTO> forms = formService.getAllFormByCreatedBy(loggedInUser, page, size, sortField, sortOrder);
         if(forms != null) {
             return responseOk(forms);
         }
@@ -94,9 +94,9 @@ public class FormController extends BaseController {
      * @throws FormException If the form cannot be created.
      */
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<String>> addForms(@RequestBody Form form) throws FormException {
-        form.setCreatedBy(loggedInUserService.getLoggedInUserEmail());
-        String formId = formService.addForm(form);
+    public ResponseEntity<CustomResponse<String>> addForms(@RequestBody FormDTO formDto) throws FormException {
+        formDto.setCreatedBy(loggedInUserService.getLoggedInUserEmail());
+        String formId = formService.addForm(formDto);
         if(formId != null) {
             return responseOkDataMessage(formId, AppMessage.FORM.getCreateSuccessfully());
         }
@@ -117,9 +117,9 @@ public class FormController extends BaseController {
      * @throws FormException If the form cannot be updated.
      */
     @RequestMapping(method = RequestMethod.PUT, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Form>> updateForms(@PathVariable("formId") String formId, @RequestBody Form form) throws FormException {
-        form.setChangedBy(loggedInUserService.getLoggedInUserEmail());
-        Form res = formService.updateForm(formId, form);
+    public ResponseEntity<CustomResponse<FormDTO>> updateForms(@PathVariable("formId") String formId, @RequestBody FormDTO formDto) throws FormException {
+        formDto.setChangedBy(loggedInUserService.getLoggedInUserEmail());
+        FormDTO res = formService.updateForm(formId, formDto);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM.getUpdateSuccessfully());
         }

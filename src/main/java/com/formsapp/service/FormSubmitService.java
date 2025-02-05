@@ -3,8 +3,7 @@ package com.formsapp.service;
 import com.formsapp.dto.FormAndSubmitDTO;
 import com.formsapp.dto.ResponseDTO;
 import com.formsapp.dto.SubmitDTO;
-import com.formsapp.dto.SubmissionDTO;
-import com.formsapp.entity.Submit;
+import com.formsapp.entity.FormSubmit;
 import com.formsapp.entity.projection.Submission;
 import org.springframework.data.domain.Page;
 
@@ -22,7 +21,7 @@ public interface FormSubmitService {
     /**
      * Adds a new form submission.
      *
-     * @param formSubmit the {@link Submit} entity containing the form submission data
+     * @param formSubmit the {@link FormSubmit} entity containing the form submission data
      * @return {@code true} if the submission was successfully added, {@code false} otherwise
      */
     Boolean addSubmit(SubmitDTO submitDto);
@@ -32,7 +31,7 @@ public interface FormSubmitService {
      *
      * @param formId the ID of the form
      * @param email the email associated with the form submission
-     * @return the {@link Submit} entity for the corresponding form and email, or {@code null} if not found
+     * @return the {@link FormSubmit} entity for the corresponding form and email, or {@code null} if not found
      */
     SubmitDTO getSubmit(String formId, String email);
 
@@ -40,7 +39,7 @@ public interface FormSubmitService {
      * Retrieves a form submission by submission ID.
      *
      * @param subId the ID of the form submission
-     * @return the {@link Submit} entity for the corresponding submission ID, or {@code null} if not found
+     * @return the {@link FormSubmit} entity for the corresponding submission ID, or {@code null} if not found
      */
     SubmitDTO getSubmit(UUID subId);
 
@@ -48,7 +47,7 @@ public interface FormSubmitService {
      * Retrieves a form submission by submission ID.
      *
      * @param subId the ID of the form submission
-     * @return the {@link Submit} entity for the corresponding submission ID, or {@code null} if not found
+     * @return the {@link FormSubmit} entity for the corresponding submission ID, or {@code null} if not found
      */
     FormAndSubmitDTO getFormAndSubmit(UUID subId);
 

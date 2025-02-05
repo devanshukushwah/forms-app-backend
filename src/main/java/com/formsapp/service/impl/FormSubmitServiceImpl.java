@@ -1,11 +1,10 @@
 package com.formsapp.service.impl;
 
 import com.formsapp.dto.*;
-import com.formsapp.entity.Submit;
+import com.formsapp.entity.FormSubmit;
 import com.formsapp.entity.projection.Submission;
 import com.formsapp.mapper.SubmissionMapper;
 import com.formsapp.mapper.SubmitMapper;
-import com.formsapp.repository.FormRepository;
 import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.FormService;
 import com.formsapp.service.FormSubmitService;
@@ -33,12 +32,12 @@ public class FormSubmitServiceImpl implements FormSubmitService {
      */
     @Override
     public Boolean addSubmit(SubmitDTO submitDto) {
-        Submit submit = SubmitMapper.dtoToEntity(submitDto);
-        if (submit.getAnswers() != null) {
-            submit.getAnswers().forEach((answer) -> answer.setSubmit(submit));
+        FormSubmit formSubmit = SubmitMapper.dtoToEntity(submitDto);
+        if (formSubmit.getAnswers() != null) {
+            formSubmit.getAnswers().forEach((answer) -> answer.setFormSubmit(formSubmit));
         }
-        submit.setCreatedDate(new Date()); // set date.
-        Submit save = formSubmitRepository.save(submit);
+        formSubmit.setCreatedDate(new Date()); // set date.
+        FormSubmit save = formSubmitRepository.save(formSubmit);
         return save.getSubId() != null;
     }
 
@@ -47,8 +46,8 @@ public class FormSubmitServiceImpl implements FormSubmitService {
      */
     @Override
     public SubmitDTO getSubmit(String formId, String email) {
-        Submit submit = formSubmitRepository.findByFormIdAndEmail(formId, email);
-        return SubmitMapper.entityToDto(submit);
+        FormSubmit formSubmit = formSubmitRepository.findByFormIdAndEmail(formId, email);
+        return SubmitMapper.entityToDto(formSubmit);
     }
 
     /**
@@ -56,17 +55,17 @@ public class FormSubmitServiceImpl implements FormSubmitService {
      */
     @Override
     public SubmitDTO getSubmit(UUID subId) {
-        Submit submit = formSubmitRepository.findBySubId(subId);
-        return SubmitMapper.entityToDto(submit);
+        FormSubmit formSubmit = formSubmitRepository.findBySubId(subId);
+        return SubmitMapper.entityToDto(formSubmit);
     }
 
     @Override
     public FormAndSubmitDTO getFormAndSubmit(UUID subId) {
-        Submit submit = formSubmitRepository.findBySubId(subId);
-        if (submit != null) {
-            FormDTO form = formService.getForm(submit.getFormId());
+        FormSubmit formSubmit = formSubmitRepository.findBySubId(subId);
+        if (formSubmit != null) {
+            FormDTO form = formService.getForm(formSubmit.getFormId());
             return FormAndSubmitDTO.builder()
-                    .submit(SubmitMapper.entityToDto(submit))
+                    .submit(SubmitMapper.entityToDto(formSubmit))
                     .form(form).build();
         }
         return null;

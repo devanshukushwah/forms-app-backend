@@ -24,7 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Submit {
+public class FormSubmit {
 
     /**
      * The unique identifier for the form submission.

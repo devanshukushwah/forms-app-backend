@@ -1,20 +1,20 @@
 package com.formsapp.mapper;
 
 import com.formsapp.dto.SubmitDTO;
-import com.formsapp.entity.Submit;
+import com.formsapp.entity.FormSubmit;
 
 import java.util.stream.Collectors;
 
 public class SubmitMapper {
-    public static SubmitDTO entityToDto(Submit submit) {
+    public static SubmitDTO entityToDto(FormSubmit formSubmit) {
         SubmitDTO.SubmitDTOBuilder builder = SubmitDTO.builder()
-                .formId(submit.getFormId())
-                .email(submit.getEmail())
-                .subId(submit.getSubId())
-                .createdDate(submit.getCreatedDate());
+                .formId(formSubmit.getFormId())
+                .email(formSubmit.getEmail())
+                .subId(formSubmit.getSubId())
+                .createdDate(formSubmit.getCreatedDate());
 
-        if (submit.getAnswers() != null) {
-            builder.answers(submit.getAnswers()
+        if (formSubmit.getAnswers() != null) {
+            builder.answers(formSubmit.getAnswers()
                     .stream()
                     .map(FormFieldAnswerMapper::entityToDto)
                     .collect(Collectors.toList()));
@@ -23,8 +23,8 @@ public class SubmitMapper {
         return builder.build();
     }
 
-    public static Submit dtoToEntity(SubmitDTO submitDto) {
-        Submit.SubmitBuilder builder = Submit.builder()
+    public static FormSubmit dtoToEntity(SubmitDTO submitDto) {
+        FormSubmit.FormSubmitBuilder builder = FormSubmit.builder()
                 .formId(submitDto.getFormId())
                 .email(submitDto.getEmail())
                 .subId(submitDto.getSubId())

@@ -51,7 +51,7 @@ public class FormFieldAnswer {
     @ManyToOne
     @JoinColumn(name = "form_submit_id", nullable = false)
     @JsonBackReference
-    private Submit submit;
+    private FormSubmit formSubmit;
 
     @Override
     public String toString() {

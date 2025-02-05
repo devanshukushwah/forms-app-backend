@@ -1,7 +1,7 @@
 package com.formsapp.service.impl;
 
 import com.formsapp.dto.SubmitDTO;
-import com.formsapp.entity.Submit;
+import com.formsapp.entity.FormSubmit;
 import com.formsapp.producer.KafkaMessageProducer;
 import com.formsapp.service.FormSubmitKafkaService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
     /**
      * Adds a new form submission.
      *
-     * @param formSubmit the {@link Submit} entity containing the form submission data
+     * @param formSubmit the {@link FormSubmit} entity containing the form submission data
      * @return {@code true} if the submission was successfully added, {@code false} otherwise
      */
     @Override

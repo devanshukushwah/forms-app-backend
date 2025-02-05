@@ -1,6 +1,6 @@
 package com.formsapp.repository;
 
-import com.formsapp.entity.Submit;
+import com.formsapp.entity.FormSubmit;
 import com.formsapp.entity.projection.Submission;
 import com.formsapp.entity.projection.SubmitsCount;
 import org.springframework.data.domain.Page;
@@ -19,25 +19,25 @@ import java.util.UUID;
  * </p>
  */
 @Repository
-public interface FormSubmitRepository extends JpaRepository<Submit, UUID> {
+public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
 
     /**
      * Finds a form submission by its associated form ID and email address.
      *
      * @param formId the ID of the form to find the submission for
      * @param email the email address of the form submitter
-     * @return the {@link Submit} entity associated with the given formId and email, or {@code null} if not found
+     * @return the {@link FormSubmit} entity associated with the given formId and email, or {@code null} if not found
      */
-    Submit findByFormIdAndEmail(String formId, String email);
+    FormSubmit findByFormIdAndEmail(String formId, String email);
 
     /**
      * Finds a form submission by its submission ID and form ID.
      *
      * @param subId the submission ID
      * @param formId the ID of the form that the submission belongs to
-     * @return the {@link Submit} entity associated with the given subId and formId, or {@code null} if not found
+     * @return the {@link FormSubmit} entity associated with the given subId and formId, or {@code null} if not found
      */
-    Submit findBySubIdAndFormId(UUID subId, String formId);
+    FormSubmit findBySubIdAndFormId(UUID subId, String formId);
 
     /**
      * Finds all form submissions for a specific form ID, including submission details such as email and submission time.
@@ -62,7 +62,7 @@ public interface FormSubmitRepository extends JpaRepository<Submit, UUID> {
      * Finds a form submission by its submission ID.
      *
      * @param subId the submission ID to find
-     * @return the {@link Submit} entity associated with the given submission ID, or {@code null} if not found
+     * @return the {@link FormSubmit} entity associated with the given submission ID, or {@code null} if not found
      */
-    Submit findBySubId(UUID subId);
+    FormSubmit findBySubId(UUID subId);
 }

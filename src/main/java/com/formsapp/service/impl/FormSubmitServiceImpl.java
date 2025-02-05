@@ -1,11 +1,13 @@
 package com.formsapp.service.impl;
 
-import com.formsapp.dto.FormSubmitDTO;
-import com.formsapp.dto.ResponseDTO;
-import com.formsapp.entity.FormSubmit;
-import com.formsapp.entity.projection.Response;
-import com.formsapp.mapper.FormSubmitMapper;
+import com.formsapp.dto.*;
+import com.formsapp.entity.Submit;
+import com.formsapp.entity.projection.Submission;
+import com.formsapp.mapper.SubmissionMapper;
+import com.formsapp.mapper.SubmitMapper;
+import com.formsapp.repository.FormRepository;
 import com.formsapp.repository.FormSubmitRepository;
+import com.formsapp.service.FormService;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,17 +25,20 @@ public class FormSubmitServiceImpl implements FormSubmitService {
     @Autowired
     private FormSubmitRepository formSubmitRepository;
 
+    @Autowired
+    private FormService formService;
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public Boolean addSubmit(FormSubmitDTO formSubmitDto) {
-        FormSubmit formSubmit = FormSubmitMapper.dtoToEntity(formSubmitDto);
-        if (formSubmit.getAnswers() != null) {
-            formSubmit.getAnswers().forEach((answer) -> answer.setFormSubmit(formSubmit));
+    public Boolean addSubmit(SubmitDTO submitDto) {
+        Submit submit = SubmitMapper.dtoToEntity(submitDto);
+        if (submit.getAnswers() != null) {
+            submit.getAnswers().forEach((answer) -> answer.setSubmit(submit));
         }
-        formSubmit.setCreatedDate(new Date()); // set date.
-        FormSubmit save = formSubmitRepository.save(formSubmit);
+        submit.setCreatedDate(new Date()); // set date.
+        Submit save = formSubmitRepository.save(submit);
         return save.getSubId() != null;
     }
 
@@ -41,18 +46,30 @@ public class FormSubmitServiceImpl implements FormSubmitService {
      * {@inheritDoc}
      */
     @Override
-    public FormSubmitDTO getSubmit(String formId, String email) {
-        FormSubmit formSubmit = formSubmitRepository.findByFormIdAndEmail(formId, email);
-        return FormSubmitMapper.entityToDto(formSubmit);
+    public SubmitDTO getSubmit(String formId, String email) {
+        Submit submit = formSubmitRepository.findByFormIdAndEmail(formId, email);
+        return SubmitMapper.entityToDto(submit);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public FormSubmitDTO getSubmit(UUID subId) {
-        FormSubmit formSubmit = formSubmitRepository.findBySubId(subId);
-        return FormSubmitMapper.entityToDto(formSubmit);
+    public SubmitDTO getSubmit(UUID subId) {
+        Submit submit = formSubmitRepository.findBySubId(subId);
+        return SubmitMapper.entityToDto(submit);
+    }
+
+    @Override
+    public FormAndSubmitDTO getFormAndSubmit(UUID subId) {
+        Submit submit = formSubmitRepository.findBySubId(subId);
+        if (submit != null) {
+            FormDTO form = formService.getForm(submit.getFormId());
+            return FormAndSubmitDTO.builder()
+                    .submit(SubmitMapper.entityToDto(submit))
+                    .form(form).build();
+        }
+        return null;
     }
 
     /**
@@ -71,7 +88,7 @@ public class FormSubmitServiceImpl implements FormSubmitService {
         // Create Pageable object with page number, page size, and sort order
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<Response> responses = formSubmitRepository.findAllByFormId(formId, pageable);
-        return ResponseDTO.builder().responses(responses).build();
+        Page<Submission> responses = formSubmitRepository.findAllByFormId(formId, pageable);
+        return ResponseDTO.builder().responses(responses.map(SubmissionMapper::entityToDto)).build();
     }
 }

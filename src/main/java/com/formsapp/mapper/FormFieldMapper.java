@@ -3,24 +3,41 @@ package com.formsapp.mapper;
 import com.formsapp.dto.FormFieldDTO;
 import com.formsapp.entity.FormField;
 
+import java.util.stream.Collectors;
+
 public class FormFieldMapper {
     public static FormFieldDTO entityToDto(FormField formField) {
-        return FormFieldDTO.builder()
+        FormFieldDTO.FormFieldDTOBuilder builder = FormFieldDTO.builder()
                 .fieldId(formField.getFieldId())
                 .fieldType(formField.getFieldType())
                 .formId(formField.getFormId())
-                .attributes(formField.getAttributes())
-                .required(formField.getRequired())
-                .build();
+                .required(formField.getRequired());
+
+        if (formField.getAttributes() != null) {
+            builder.attributes(formField.getAttributes()
+                    .stream()
+                    .map(FormFieldAttributeMapper::entityToDto)
+                    .collect(Collectors.toList()));
+        }
+
+        return builder.build();
     }
 
     public static FormField dtoToEntity(FormFieldDTO formDto) {
-        return FormField.builder()
+        FormField.FormFieldBuilder builder = FormField.builder()
                 .fieldId(formDto.getFieldId())
                 .fieldType(formDto.getFieldType())
                 .formId(formDto.getFormId())
-                .attributes(formDto.getAttributes())
-                .required(formDto.getRequired())
-                .build();
+                .required(formDto.getRequired());
+
+        if (formDto.getAttributes() != null) {
+            builder.attributes(formDto.getAttributes()
+                    .stream()
+                    .map(FormFieldAttributeMapper::dtoToEntity)
+                    .collect(Collectors.toList()));
+        }
+
+        return builder.build();
+
     }
 }

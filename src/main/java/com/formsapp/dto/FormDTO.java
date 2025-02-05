@@ -22,6 +22,6 @@ public class FormDTO {
     private String createdBy;
     private Date changedDate;
     private String changedBy;
-    private List<FormField> formFields;
+    private List<FormFieldDTO> formFields;
     private Long submitsCount;
 }

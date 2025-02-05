@@ -6,6 +6,7 @@ import com.formsapp.entity.FormField;
 import com.formsapp.exception.Operation;
 import com.formsapp.entity.Form;
 import com.formsapp.entity.projection.SubmitsCount;
+import com.formsapp.mapper.FormFieldMapper;
 import com.formsapp.mapper.FormMapper;
 import com.formsapp.repository.FormFieldRepository;
 import com.formsapp.repository.FormRepository;
@@ -52,7 +53,7 @@ public class FormServiceImpl implements FormService {
             // get form fields
             List<FormField> formFields = formFieldRepository.findByFormId(formId);
             FormDTO formDTO = FormMapper.entityToDto(form);
-            formDTO.setFormFields(formFields);
+            formDTO.setFormFields(formFields.stream().map(FormFieldMapper::entityToDto).collect(Collectors.toList()));
             return formDTO;
         }
         return null;
@@ -77,7 +78,7 @@ public class FormServiceImpl implements FormService {
 
         // for counting submit response.
         if (finalResult != null && !finalResult.getContent().isEmpty()) {
-            return populateFormSubmitCount(finalResult);
+            return populateFormSubmitCount(finalResult.map(FormMapper::entityToDto));
         }
         return null;
     }
@@ -101,20 +102,19 @@ public class FormServiceImpl implements FormService {
 
         // for counting submit response.
         if (finalResult != null && !finalResult.getContent().isEmpty()) {
-            return populateFormSubmitCount(finalResult);
+            return populateFormSubmitCount(finalResult.map(FormMapper::entityToDto));
         }
         return null;
     }
 
-    private Page<FormDTO> populateFormSubmitCount(Page<Form> finalResult) {
-        Page<FormDTO> dtoFinalResult = finalResult.map(FormMapper::entityToDto);
-        List<FormDTO> content = dtoFinalResult.getContent();
+    private Page<FormDTO> populateFormSubmitCount(Page<FormDTO> finalResult) {
+        List<FormDTO> content = finalResult.getContent();
         List<SubmitsCount> allCountsByFormIds = formSubmitRepository.findAllCountsByFormIds(content.stream().map(FormDTO::getFormId).collect(Collectors.toList()));
         Map<String, Long> collect = allCountsByFormIds.stream().collect(Collectors.toMap(SubmitsCount::getFormId, SubmitsCount::getSubmitsCount));
         content.forEach(item -> {
             item.setSubmitsCount(collect.get(item.getFormId()));
         });
-        return dtoFinalResult;
+        return finalResult;
     }
 
     /**

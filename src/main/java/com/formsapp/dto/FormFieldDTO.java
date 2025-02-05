@@ -25,5 +25,5 @@ public class FormFieldDTO {
     private String fieldType;
     private Boolean required;
     private String formId;
-    private List<FormFieldAttribute> attributes;
+    private List<FormFieldAttributeDTO> attributes;
 }

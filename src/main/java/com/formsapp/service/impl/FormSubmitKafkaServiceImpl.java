@@ -1,7 +1,7 @@
 package com.formsapp.service.impl;
 
-import com.formsapp.dto.FormSubmitDTO;
-import com.formsapp.entity.FormSubmit;
+import com.formsapp.dto.SubmitDTO;
+import com.formsapp.entity.Submit;
 import com.formsapp.producer.KafkaMessageProducer;
 import com.formsapp.service.FormSubmitKafkaService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,18 +22,18 @@ public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
     /**
      * Adds a new form submission.
      *
-     * @param formSubmit the {@link FormSubmit} entity containing the form submission data
+     * @param formSubmit the {@link Submit} entity containing the form submission data
      * @return {@code true} if the submission was successfully added, {@code false} otherwise
      */
     @Override
-    public Boolean addSubmit(FormSubmitDTO formSubmitDto) {
+    public Boolean addSubmit(SubmitDTO submitDto) {
         // add created date.
-        formSubmitDto.setCreatedDate(new Date());
+        submitDto.setCreatedDate(new Date());
 
-        CompletableFuture<SendResult<String, FormSubmitDTO>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(formSubmitDto);
+        CompletableFuture<SendResult<String, SubmitDTO>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(submitDto);
         sendMessage.whenComplete((result, ex) -> {
             if (ex != null) {
-                log.error("Failed to send message: {}", formSubmitDto, ex);
+                log.error("Failed to send message: {}", submitDto, ex);
             }
         });
         return true;

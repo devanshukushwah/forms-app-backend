@@ -1,10 +1,8 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppErrorMessage;
-import com.formsapp.dto.FormDTO;
-import com.formsapp.dto.FormSubmitDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.entity.FormAndSubmit;
+import com.formsapp.dto.FormAndSubmitDTO;
 import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormService;
 import com.formsapp.service.FormSubmitService;
@@ -49,15 +47,9 @@ public class FormAndSubmitController extends BaseController {
      * @throws FormException If the form submission cannot be retrieved or if the associated form is not found.
      */
     @GetMapping(path = "{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormAndSubmit>> getResponse(@PathVariable(name = "subId") UUID subId) throws FormException {
-        FormSubmitDTO submit = formSubmitService.getSubmit(subId);
-        if (submit != null) {
-            FormAndSubmit formAndSubmit = new FormAndSubmit();
-            formAndSubmit.setSubmit(submit);
-            if (submit.getFormId() != null) {
-                FormDTO formDto = formService.getForm(submit.getFormId());
-                formAndSubmit.setForm(formDto);
-            }
+    public ResponseEntity<CustomResponse<FormAndSubmitDTO>> getFormAndSubmit(@PathVariable(name = "subId") UUID subId) throws FormException {
+        FormAndSubmitDTO formAndSubmit = formSubmitService.getFormAndSubmit(subId);
+        if (formAndSubmit != null) {
             return responseOk(formAndSubmit);
         }
 

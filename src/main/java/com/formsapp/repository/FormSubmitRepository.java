@@ -1,7 +1,7 @@
 package com.formsapp.repository;
 
-import com.formsapp.entity.FormSubmit;
-import com.formsapp.entity.projection.Response;
+import com.formsapp.entity.Submit;
+import com.formsapp.entity.projection.Submission;
 import com.formsapp.entity.projection.SubmitsCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,35 +19,35 @@ import java.util.UUID;
  * </p>
  */
 @Repository
-public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
+public interface FormSubmitRepository extends JpaRepository<Submit, UUID> {
 
     /**
      * Finds a form submission by its associated form ID and email address.
      *
      * @param formId the ID of the form to find the submission for
      * @param email the email address of the form submitter
-     * @return the {@link FormSubmit} entity associated with the given formId and email, or {@code null} if not found
+     * @return the {@link Submit} entity associated with the given formId and email, or {@code null} if not found
      */
-    FormSubmit findByFormIdAndEmail(String formId, String email);
+    Submit findByFormIdAndEmail(String formId, String email);
 
     /**
      * Finds a form submission by its submission ID and form ID.
      *
      * @param subId the submission ID
      * @param formId the ID of the form that the submission belongs to
-     * @return the {@link FormSubmit} entity associated with the given subId and formId, or {@code null} if not found
+     * @return the {@link Submit} entity associated with the given subId and formId, or {@code null} if not found
      */
-    FormSubmit findBySubIdAndFormId(UUID subId, String formId);
+    Submit findBySubIdAndFormId(UUID subId, String formId);
 
     /**
      * Finds all form submissions for a specific form ID, including submission details such as email and submission time.
      *
      * @param formId the ID of the form to find submissions for
      * @param pageable the pagination information
-     * @return a paginated list of {@link Response} projections containing the email, submission ID, and creation date of each submission
+     * @return a paginated list of {@link Submission} projections containing the email, submission ID, and creation date of each submission
      */
     @Query("SELECT f.email AS email, f.subId AS subId, f.createdDate as createdDate FROM FormSubmit f WHERE f.formId = :formId")
-    Page<Response> findAllByFormId(String formId, Pageable pageable);
+    Page<Submission> findAllByFormId(String formId, Pageable pageable);
 
     /**
      * Finds the count of form submissions for a list of form IDs.
@@ -62,7 +62,7 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
      * Finds a form submission by its submission ID.
      *
      * @param subId the submission ID to find
-     * @return the {@link FormSubmit} entity associated with the given submission ID, or {@code null} if not found
+     * @return the {@link Submit} entity associated with the given submission ID, or {@code null} if not found
      */
-    FormSubmit findBySubId(UUID subId);
+    Submit findBySubId(UUID subId);
 }

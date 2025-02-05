@@ -3,7 +3,6 @@ package com.formsapp.controller;
 import com.formsapp.common.AppMessage;
 import com.formsapp.dto.FormFieldDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.entity.FormField;
 import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormFieldService;
 import org.springframework.beans.factory.annotation.Autowired;

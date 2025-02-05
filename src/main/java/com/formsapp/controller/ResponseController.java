@@ -2,12 +2,13 @@ package com.formsapp.controller;
 
 import com.formsapp.dto.ResponseDTO;
 import com.formsapp.dto.core.CustomResponse;
-import com.formsapp.entity.projection.Response;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * Controller for handling responses to form submissions.
@@ -27,7 +28,7 @@ public class ResponseController extends BaseController {
      * Retrieves all form submission responses for a specific form.
      * <p>
      * This method fetches a list of responses associated with the provided form ID.
-     * It returns ResponseDTO list of {@link Response} objects.
+     * It returns SubmissionDTO list of {@link Submission} objects.
      * </p>
      *
      * @param formId    The ID of the form whose responses are to be fetched.

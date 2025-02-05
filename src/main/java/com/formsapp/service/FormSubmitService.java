@@ -1,9 +1,11 @@
 package com.formsapp.service;
 
-import com.formsapp.dto.FormSubmitDTO;
+import com.formsapp.dto.FormAndSubmitDTO;
 import com.formsapp.dto.ResponseDTO;
-import com.formsapp.entity.FormSubmit;
-import com.formsapp.entity.projection.Response;
+import com.formsapp.dto.SubmitDTO;
+import com.formsapp.dto.SubmissionDTO;
+import com.formsapp.entity.Submit;
+import com.formsapp.entity.projection.Submission;
 import org.springframework.data.domain.Page;
 
 import java.util.UUID;
@@ -20,27 +22,36 @@ public interface FormSubmitService {
     /**
      * Adds a new form submission.
      *
-     * @param formSubmit the {@link FormSubmit} entity containing the form submission data
+     * @param formSubmit the {@link Submit} entity containing the form submission data
      * @return {@code true} if the submission was successfully added, {@code false} otherwise
      */
-    Boolean addSubmit(FormSubmitDTO formSubmitDto);
+    Boolean addSubmit(SubmitDTO submitDto);
 
     /**
      * Retrieves a form submission by form ID and email.
      *
      * @param formId the ID of the form
      * @param email the email associated with the form submission
-     * @return the {@link FormSubmit} entity for the corresponding form and email, or {@code null} if not found
+     * @return the {@link Submit} entity for the corresponding form and email, or {@code null} if not found
      */
-    FormSubmitDTO getSubmit(String formId, String email);
+    SubmitDTO getSubmit(String formId, String email);
 
     /**
      * Retrieves a form submission by submission ID.
      *
      * @param subId the ID of the form submission
-     * @return the {@link FormSubmit} entity for the corresponding submission ID, or {@code null} if not found
+     * @return the {@link Submit} entity for the corresponding submission ID, or {@code null} if not found
      */
-    FormSubmitDTO getSubmit(UUID subId);
+    SubmitDTO getSubmit(UUID subId);
+
+    /**
+     * Retrieves a form submission by submission ID.
+     *
+     * @param subId the ID of the form submission
+     * @return the {@link Submit} entity for the corresponding submission ID, or {@code null} if not found
+     */
+    FormAndSubmitDTO getFormAndSubmit(UUID subId);
+
 
     /**
      * Retrieves all responses for a specific form.
@@ -50,7 +61,7 @@ public interface FormSubmitService {
      * @param size the number of responses per page
      * @param sortField the field to sort the responses by
      * @param sortOrder the order to sort the responses (e.g., "asc" or "desc")
-     * @return a {@link Page} of {@link Response} projections containing form responses
+     * @return a {@link Page} of {@link Submission} projections containing form responses
      */
     ResponseDTO getResponses(String formId, int page, int size, String sortField, String sortOrder);
 }

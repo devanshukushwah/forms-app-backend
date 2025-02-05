@@ -1,9 +1,8 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
-import com.formsapp.dto.FormSubmitDTO;
+import com.formsapp.dto.SubmitDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.entity.FormSubmit;
 import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormSubmitService;
 import com.formsapp.service.LoggedInUserService;
@@ -42,8 +41,8 @@ public class FormSubmitController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the form submission data and a success/failure message.
      */
     @RequestMapping(method = RequestMethod.GET, path = "{subId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormSubmitDTO>> getSubmit(@PathVariable("subId") UUID subId) {
-        FormSubmitDTO formSubmit = formSubmitService.getSubmit(subId);
+    public ResponseEntity<CustomResponse<SubmitDTO>> getSubmit(@PathVariable("subId") UUID subId) {
+        SubmitDTO formSubmit = formSubmitService.getSubmit(subId);
         if(formSubmit != null) {
             return responseOk(formSubmit);
         } else {
@@ -54,7 +53,7 @@ public class FormSubmitController extends BaseController {
     /**
      * Adds a new form submission for a specific form.
      * <p>
-     * This method accepts a {@link FormSubmit} object in the request body and submits it for the specified form.
+     * This method accepts a {@link Submit} object in the request body and submits it for the specified form.
      * If the submission is successful, a success message is returned. If the submission fails, a failure message is returned.
      * </p>
      *
@@ -63,10 +62,10 @@ public class FormSubmitController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the status of the form submission.
      */
     @RequestMapping(method = RequestMethod.POST, path = "formId/{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody FormSubmitDTO formSubmitDto) throws FormException {
-        formSubmitDto.setEmail(loggedInUserService.getLoggedInUserEmail());
-        formSubmitDto.setFormId(formId);
-        if(formSubmitService.addSubmit(formSubmitDto)) {
+    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody SubmitDTO submitDto) throws FormException {
+        submitDto.setEmail(loggedInUserService.getLoggedInUserEmail());
+        submitDto.setFormId(formId);
+        if(formSubmitService.addSubmit(submitDto)) {
             return responseOkDataMessage(true, AppMessage.FORM_SUBMIT.getSubmitSuccessfully());
         } else {
             return responseFailDataMessage(false, AppMessage.FORM_SUBMIT.getSubmitFailed());
@@ -85,8 +84,8 @@ public class FormSubmitController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the form submission data and a success/failure message.
      */
     @RequestMapping(method = RequestMethod.GET, path = "email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormSubmitDTO>> getSubmitByEmail(@PathVariable("formId") String formId, @PathVariable String email) {
-        FormSubmitDTO formSubmit = formSubmitService.getSubmit(formId, email);
+    public ResponseEntity<CustomResponse<SubmitDTO>> getSubmitByEmail(@PathVariable("formId") String formId, @PathVariable String email) {
+        SubmitDTO formSubmit = formSubmitService.getSubmit(formId, email);
         if(formSubmit != null) {
             return responseOk(formSubmit);
         } else {

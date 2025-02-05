@@ -1,14 +1,11 @@
 package com.formsapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.formsapp.entity.FormFieldAnswer;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -24,10 +21,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FormSubmitDTO {
+public class SubmitDTO {
     private UUID subId;
     private String formId;
     private String email;
     private Date createdDate;
-    private List<FormFieldAnswer> answers;
+    private List<FormFieldAnswerDTO> answers;
 }

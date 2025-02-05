@@ -1,8 +1,7 @@
-package com.formsapp.entity;
+package com.formsapp.dto;
 
-import com.formsapp.dto.FormDTO;
-import com.formsapp.dto.FormSubmitDTO;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FormAndSubmit {
+@Builder
+public class FormAndSubmitDTO {
 
     /**
      * The form associated with the submission.
@@ -26,5 +26,5 @@ public class FormAndSubmit {
     /**
      * The form submission data.
      */
-    private FormSubmitDTO submit;
+    private SubmitDTO submit;
 }

@@ -1,7 +1,7 @@
 package com.formsapp.controller;
 
 import com.formsapp.common.AppMessage;
-import com.formsapp.dto.FormSubmitDTO;
+import com.formsapp.dto.SubmitDTO;
 import com.formsapp.exception.FormException;
 import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormSubmitKafkaService;
@@ -25,10 +25,10 @@ public class FormSubmitV2Controller extends BaseController {
 
 
     @RequestMapping(method = RequestMethod.POST, path = "formId/{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody FormSubmitDTO formSubmitDto) throws FormException {
-        formSubmitDto.setEmail(loggedInUserService.getLoggedInUserEmail());
-        formSubmitDto.setFormId(formId);
-        if (formSubmitKafkaService.addSubmit(formSubmitDto)) {
+    public ResponseEntity<CustomResponse<Boolean>> addSubmit(@PathVariable("formId") String formId, @RequestBody SubmitDTO submitDto) throws FormException {
+        submitDto.setEmail(loggedInUserService.getLoggedInUserEmail());
+        submitDto.setFormId(formId);
+        if (formSubmitKafkaService.addSubmit(submitDto)) {
             return responseOkDataMessage(true, AppMessage.FORM_SUBMIT.getSubmitSuccessfully());
         } else {
             return responseFailDataMessage(false, AppMessage.FORM_SUBMIT.getSubmitFailed());

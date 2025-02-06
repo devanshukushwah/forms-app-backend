@@ -72,7 +72,10 @@ public class WebSecurityConfig {
     @Bean
     @Profile({"local", "test"})
     public SecurityFilterChain filterChainLocal(HttpSecurity http) throws Exception {
-        return http.cors(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> auth.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable).build();
+        return http.cors().and()
+                .authorizeHttpRequests(auth -> auth.anyRequest()
+                        .permitAll())
+                .csrf(AbstractHttpConfigurer::disable).build();
     }
 
 

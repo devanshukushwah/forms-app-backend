@@ -203,7 +203,7 @@ public class FormServiceImpl implements FormService {
 
         String end = null;
         if (todayFormCreatedCount <= 999) {
-            end = String.format("%03d", todayFormCreatedCount);
+            end = String.format("%03d", todayFormCreatedCount + 1);
         } else {
             end = String.valueOf(todayFormCreatedCount);
         }

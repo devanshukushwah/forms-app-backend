@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,9 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
      * @param email the email address of the form submitter
      * @return the {@link FormSubmit} entity associated with the given formId and email, or {@code null} if not found
      */
-    FormSubmit findByFormIdAndEmail(String formId, String email);
+    List<FormSubmit> findAllByFormIdAndEmail(String formId, String email);
+
+    Optional<FormSubmit> findTopByFormIdAndEmailOrderBySubIdDesc(String formId, String email);
 
     /**
      * Finds a form submission by its submission ID and form ID.

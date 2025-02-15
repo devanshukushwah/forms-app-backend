@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -45,9 +47,9 @@ public class FormSubmitServiceImpl implements FormSubmitService {
      * {@inheritDoc}
      */
     @Override
-    public SubmitDTO getSubmit(String formId, String email) {
-        FormSubmit formSubmit = formSubmitRepository.findByFormIdAndEmail(formId, email);
-        return SubmitMapper.entityToDto(formSubmit);
+    public SubmitDTO getLastSubmit(String formId, String email) {
+        Optional<FormSubmit> formSubmit = formSubmitRepository.findTopByFormIdAndEmailOrderBySubIdDesc(formId, email);
+        return formSubmit.map(SubmitMapper::entityToDto).orElse(null);
     }
 
     /**

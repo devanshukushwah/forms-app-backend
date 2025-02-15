@@ -33,7 +33,7 @@ public interface FormSubmitService {
      * @param email the email associated with the form submission
      * @return the {@link FormSubmit} entity for the corresponding form and email, or {@code null} if not found
      */
-    SubmitDTO getSubmit(String formId, String email);
+    SubmitDTO getLastSubmit(String formId, String email);
 
     /**
      * Retrieves a form submission by submission ID.

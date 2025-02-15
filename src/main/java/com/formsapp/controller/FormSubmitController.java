@@ -83,9 +83,30 @@ public class FormSubmitController extends BaseController {
      * @param email The email address associated with the submission.
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the form submission data and a success/failure message.
      */
-    @RequestMapping(method = RequestMethod.GET, path = "email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, path = "formId/{formId}/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<SubmitDTO>> getSubmitByEmail(@PathVariable("formId") String formId, @PathVariable String email) {
-        SubmitDTO formSubmit = formSubmitService.getSubmit(formId, email);
+        SubmitDTO formSubmit = formSubmitService.getLastSubmit(formId, email);
+        if(formSubmit != null) {
+            return responseOk(formSubmit);
+        } else {
+            return responseFailDataMessage(null, AppMessage.FORM_SUBMIT.getFetchFailed());
+        }
+    }
+
+    /**
+     * Fetches a form submission by the email address.
+     * <p>
+     * This method retrieves the form submission associated with the given email address for a specific form.
+     * If the submission is found, it is returned along with a success response. Otherwise, a failure message is returned.
+     * </p>
+     *
+     * @param formId The ID of the form to fetch submissions for.
+     * @param email The email address associated with the submission.
+     * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the form submission data and a success/failure message.
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "formId/{formId}/email", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<SubmitDTO>> getSubmitByEmailThroughJWT(@PathVariable("formId") String formId) throws FormException {
+        SubmitDTO formSubmit = formSubmitService.getLastSubmit(formId, loggedInUserService.getLoggedInUserEmail());
         if(formSubmit != null) {
             return responseOk(formSubmit);
         } else {

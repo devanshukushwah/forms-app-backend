@@ -43,6 +43,11 @@ public class Form {
     private String description;
 
     /**
+     * A flag to identify multiple submit allowed.
+     * */
+    private Boolean multipleSubmit;
+
+    /**
      * Timestamp indicating when the form was created.
      * This value is automatically populated when the entity is persisted.
      */

@@ -13,6 +13,7 @@ public class FormMapper {
                 .createdBy(form.getCreatedBy())
                 .changedDate(form.getChangedDate())
                 .changedBy(form.getChangedBy())
+                .multipleSubmit(form.getMultipleSubmit())
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class FormMapper {
                 .createdBy(formDto.getCreatedBy())
                 .changedDate(formDto.getChangedDate())
                 .changedBy(formDto.getChangedBy())
+                .multipleSubmit(formDto.getMultipleSubmit())
                 .build();
     }
 }

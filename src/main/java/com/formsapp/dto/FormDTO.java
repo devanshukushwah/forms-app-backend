@@ -24,4 +24,5 @@ public class FormDTO {
     private String changedBy;
     private List<FormFieldDTO> formFields;
     private Long submitsCount;
+    private Boolean multipleSubmit;
 }

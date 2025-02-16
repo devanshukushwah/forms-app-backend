@@ -23,6 +23,7 @@ import java.util.List;
 public class FormFieldDTO {
     private Long fieldId;
     private String fieldType;
+    private String fieldTitle;
     private Boolean required;
     private String formId;
     private List<FormFieldAttributeDTO> attributes;

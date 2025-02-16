@@ -37,6 +37,8 @@ public class FormField {
      */
     private String fieldType;
 
+    private String fieldTitle;
+
     /**
      * Indicates whether the form field is required.
      */

@@ -10,6 +10,7 @@ public class FormFieldMapper {
         FormFieldDTO.FormFieldDTOBuilder builder = FormFieldDTO.builder()
                 .fieldId(formField.getFieldId())
                 .fieldType(formField.getFieldType())
+                .fieldTitle(formField.getFieldTitle())
                 .formId(formField.getFormId())
                 .required(formField.getRequired());
 
@@ -27,6 +28,7 @@ public class FormFieldMapper {
         FormField.FormFieldBuilder builder = FormField.builder()
                 .fieldId(formDto.getFieldId())
                 .fieldType(formDto.getFieldType())
+                .fieldTitle(formDto.getFieldTitle())
                 .formId(formDto.getFormId())
                 .required(formDto.getRequired());
 

@@ -43,7 +43,7 @@ public class ResponseController extends BaseController {
                                                                    @RequestParam(defaultValue = "0") int page,  // Page number (default is 0)
                                                                    @RequestParam(defaultValue = "10") int size, // Page size (default is 10)
                                                                    @RequestParam(defaultValue = "createdDate") String sortField,  // Sorting field (default is "name")
-                                                                   @RequestParam(defaultValue = "asc") String sortOrder) {
+                                                                   @RequestParam(defaultValue = "desc") String sortOrder) {
         ResponseDTO responses = formSubmitService.getResponses(formId, page, size, sortField, sortOrder);
         return responseOk(responses);
     }

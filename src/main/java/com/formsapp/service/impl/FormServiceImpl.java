@@ -2,6 +2,7 @@ package com.formsapp.service.impl;
 
 import com.formsapp.common.AppConstant;
 import com.formsapp.dto.FormDTO;
+import com.formsapp.dto.FormFieldDTO;
 import com.formsapp.entity.FormField;
 import com.formsapp.exception.Operation;
 import com.formsapp.entity.Form;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class FormServiceImpl implements FormService {
             // get form fields
             List<FormField> formFields = formFieldRepository.findByFormId(formId);
             FormDTO formDTO = FormMapper.entityToDto(form);
-            formDTO.setFormFields(formFields.stream().map(FormFieldMapper::entityToDto).collect(Collectors.toList()));
+            formDTO.setFormFields(formFields.stream().map(FormFieldMapper::entityToDto).sorted(Comparator.comparingLong(FormFieldDTO::getFieldId)).collect(Collectors.toList()));
             return formDTO;
         }
         return null;

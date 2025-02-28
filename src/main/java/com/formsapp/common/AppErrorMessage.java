@@ -35,7 +35,12 @@ public enum AppErrorMessage {
      * Example usage: When fetching a form or submitting it fails due to server or data issues.
      * </p>
      */
-    GET_FORM_SUBMIT_FAILED("failed to get form and submit");
+    GET_FORM_SUBMIT_FAILED("failed to get form and submit"),
+
+    /**
+     * Represents an error indicating the failure of export.
+     * */
+    FAILED_TO_EXPORT("failed to export");
 
     /**
      * Constructor to initialize the error message.

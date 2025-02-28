@@ -31,6 +31,8 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
      */
     List<FormSubmit> findAllByFormIdAndEmail(String formId, String email);
 
+    List<FormSubmit> findAllByFormId(String formId);
+
     Optional<FormSubmit> findTopByFormIdAndEmailOrderBySubIdDesc(String formId, String email);
 
     /**

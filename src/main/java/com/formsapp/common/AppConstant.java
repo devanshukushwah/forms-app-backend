@@ -27,4 +27,9 @@ public class AppConstant {
     public static final String HYPHEN_F = "-F";
 
     public static final String KAFKA_TOPIC_FORMS_APP = "TOPIC-FORMS-APP";
+
+    public static final String FILE_TEXT_CSV = "text/csv";
+
+    public static final String CSV = "csv";
+
 }

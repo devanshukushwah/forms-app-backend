@@ -4,6 +4,7 @@ import com.formsapp.dto.SubmitDTO;
 import com.formsapp.entity.FormSubmit;
 import com.formsapp.producer.KafkaMessageProducer;
 import com.formsapp.service.FormSubmitKafkaService;
+import com.formsapp.service.FormSubmitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,11 +16,11 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
-@ConditionalOnProperty(name = "app.feature.kafka-submit", havingValue = "true", matchIfMissing = false)
-public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
+@ConditionalOnProperty(name = "app.feature.kafka-submit", havingValue = "false", matchIfMissing = false)
+public class FormSubmitKafkaDisabledServiceImpl implements FormSubmitKafkaService {
 
     @Autowired
-    private KafkaMessageProducer kafkaMessagePublisher;
+    private FormSubmitService formSubmitService;
 
     /**
      * Adds a new form submission.
@@ -29,15 +30,6 @@ public class FormSubmitKafkaServiceImpl implements FormSubmitKafkaService {
      */
     @Override
     public Boolean addSubmit(SubmitDTO submitDto) {
-        // add created date.
-        submitDto.setCreatedDate(new Date());
-
-        CompletableFuture<SendResult<String, SubmitDTO>> sendMessage = kafkaMessagePublisher.sendFormSubmitMessage(submitDto);
-        sendMessage.whenComplete((result, ex) -> {
-            if (ex != null) {
-                log.error("Failed to send message: {}", submitDto, ex);
-            }
-        });
-        return true;
+        return formSubmitService.addSubmit(submitDto);
     }
 }

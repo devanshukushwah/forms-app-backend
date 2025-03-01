@@ -1,9 +1,10 @@
 package com.formsapp.controller;
 
+import com.formsapp.annotation.FormEditPermissionAnnotation;
 import com.formsapp.common.AppMessage;
 import com.formsapp.dto.FormDTO;
-import com.formsapp.exception.FormException;
 import com.formsapp.dto.core.CustomResponse;
+import com.formsapp.exception.FormException;
 import com.formsapp.service.FormService;
 import com.formsapp.service.LoggedInUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -116,6 +117,7 @@ public class FormController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the updated form and a success message.
      * @throws FormException If the form cannot be updated.
      */
+    @FormEditPermissionAnnotation
     @RequestMapping(method = RequestMethod.PUT, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<FormDTO>> updateForms(@PathVariable("formId") String formId, @RequestBody FormDTO formDto) throws FormException {
         formDto.setChangedBy(loggedInUserService.getLoggedInUserEmail());

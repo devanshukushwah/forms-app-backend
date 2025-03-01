@@ -1,5 +1,6 @@
 package com.formsapp.controller;
 
+import com.formsapp.annotation.FormEditPermissionAnnotation;
 import com.formsapp.common.AppMessage;
 import com.formsapp.dto.FormFieldDTO;
 import com.formsapp.exception.FormException;
@@ -37,6 +38,7 @@ public class FormFieldController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the created form field and a success message.
      * @throws FormException If the form field cannot be created.
      */
+    @FormEditPermissionAnnotation
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<FormFieldDTO>> addFormsField(@PathVariable String formId, @RequestBody FormFieldDTO formFieldDto) throws FormException {
         FormFieldDTO res = formFieldService.save(formId, formFieldDto);
@@ -60,6 +62,7 @@ public class FormFieldController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the updated form field and a success message.
      * @throws FormException If the form field cannot be updated.
      */
+    @FormEditPermissionAnnotation
     @RequestMapping(method = RequestMethod.PUT, path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<FormFieldDTO>> updateFormsField(@PathVariable String formId, @PathVariable Long id, @RequestBody FormFieldDTO formFieldDto) throws FormException {
         FormFieldDTO res = formFieldService.updateFormField(formId, id, formFieldDto);

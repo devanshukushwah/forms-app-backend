@@ -6,9 +6,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Configuration class for web security settings.
@@ -46,10 +52,11 @@ public class WebSecurityConfig {
      * @throws Exception If any configuration exception occurs.
      */
     @Bean
-    @Profile("!local")
+    @Profile({"dev", "qa", "prod"})
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(AbstractHttpConfigurer::disable) // Enables CORS support
+            .cors().and() // Enables CORS support
+            .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(ACTUATORS).permitAll() // Public access to actuator-related endpoints
                     .anyRequest().authenticated()          // All other endpoints require authentication
@@ -63,8 +70,69 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    @Profile("local")
+    @Profile({"local", "test"})
     public SecurityFilterChain filterChainLocal(HttpSecurity http) throws Exception {
-        return http.cors(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> auth.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable).build();
+        return http.cors().and()
+                .authorizeHttpRequests(auth -> auth.anyRequest()
+                        .permitAll())
+                .csrf(AbstractHttpConfigurer::disable).build();
     }
+
+
+    /**
+     * Creates a {@link CorsFilter} bean with the provided {@link CorsConfiguration}.
+     * <p>
+     * This bean will be used to apply the global CORS configuration to all incoming requests.
+     * </p>
+     *
+     * @param config The CORS configuration to be applied to the filter.
+     * @return A {@link CorsFilter} bean that applies the provided CORS configuration.
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(CorsConfiguration config) {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+    /**
+     * Creates a {@link CorsConfiguration} bean for local development profile ("local").
+     * <p>
+     * This configuration allows all origins and supports the default CORS methods (GET, POST, PUT, DELETE, OPTIONS).
+     * It is intended for local development environments.
+     * </p>
+     *
+     * @return A {@link CorsConfiguration} with default permit settings for local profile.
+     */
+    @Profile(value = {"local", "dev", "test"})
+    @Bean
+    public CorsConfiguration corsConfigurationLocal() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        return configuration;
+    }
+
+    /**
+     * Creates a {@link CorsConfiguration} bean for production profile ("prod").
+     * <p>
+     * This configuration allows specific origins from the "makeitcoder.com" domain, supports a set of methods
+     * (GET, POST, PUT, DELETE), and allows all headers to be sent in requests.
+     * It is intended for secure production environments.
+     * </p>
+     *
+     * @return A {@link CorsConfiguration} with specific settings for production profile.
+     */
+    @Profile(value = {"qa", "prod"})
+    @Bean
+    public CorsConfiguration corsConfiguration() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Arrays.asList("http://*makeitcoder.com", "https://*makeitcoder.com"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        config.setAllowedHeaders(List.of("*"));
+        return config;
+    }
+
 }

@@ -1,16 +1,14 @@
 package com.formsapp.controller;
 
-import com.formsapp.model.core.CustomResponse;
-import com.formsapp.model.projection.FormResponse;
-import com.formsapp.model.response.SubmitResponse;
+import com.formsapp.dto.ResponseDTO;
+import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormSubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for handling responses to form submissions.
@@ -30,7 +28,7 @@ public class ResponseController extends BaseController {
      * Retrieves all form submission responses for a specific form.
      * <p>
      * This method fetches a list of responses associated with the provided form ID.
-     * It returns a {@link SubmitResponse} object, which contains a list of {@link FormResponse} objects.
+     * It returns SubmissionDTO list of {@link Submission} objects.
      * </p>
      *
      * @param formId    The ID of the form whose responses are to be fetched.
@@ -41,13 +39,13 @@ public class ResponseController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the list of form responses.
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<SubmitResponse>> getResponse(@PathVariable(name = "formId") String formId,
-                                                                      @RequestParam(defaultValue = "0") int page,  // Page number (default is 0)
-                                                                      @RequestParam(defaultValue = "10") int size, // Page size (default is 10)
-                                                                      @RequestParam(defaultValue = "createdDate") String sortField,  // Sorting field (default is "name")
-                                                                      @RequestParam(defaultValue = "asc") String sortOrder) {
-        Page<FormResponse> responses = formSubmitService.getResponses(formId, page, size, sortField, sortOrder);
-        return responseOk(new SubmitResponse(responses));
+    public ResponseEntity<CustomResponse<ResponseDTO>> getResponse(@PathVariable(name = "formId") String formId,
+                                                                   @RequestParam(defaultValue = "0") int page,  // Page number (default is 0)
+                                                                   @RequestParam(defaultValue = "10") int size, // Page size (default is 10)
+                                                                   @RequestParam(defaultValue = "createdDate") String sortField,  // Sorting field (default is "name")
+                                                                   @RequestParam(defaultValue = "desc") String sortOrder) {
+        ResponseDTO responses = formSubmitService.getResponses(formId, page, size, sortField, sortOrder);
+        return responseOk(responses);
     }
 
 }

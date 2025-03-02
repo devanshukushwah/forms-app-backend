@@ -1,10 +1,9 @@
 package com.formsapp.service;
 
+import com.formsapp.dto.FormDTO;
 import com.formsapp.exception.Operation;
-import com.formsapp.model.Form;
+import com.formsapp.entity.Form;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 /**
  * Service interface for managing forms.
@@ -20,7 +19,7 @@ public interface FormService {
      * @param formId the ID of the form to retrieve
      * @return the {@link Form} entity with the specified ID
      */
-    Form getForm(String formId);
+    FormDTO getForm(String formId);
 
     /**
      * Retrieves all forms with pagination and sorting.
@@ -31,7 +30,20 @@ public interface FormService {
      * @param sortOrder the order of sorting ("asc" for ascending, "desc" for descending)
      * @return a {@link Page} object containing the paginated forms
      */
-    Page<Form> getAllForm(int page, int size, String sortField, String sortOrder);
+    Page<FormDTO> getAllForm(int page, int size, String sortField, String sortOrder);
+
+    /**
+     * Retrieves all forms with pagination and sorting.
+     *
+     * @param createdBy user who created this form 
+     * @param page the page number to retrieve
+     * @param size the number of records per page
+     * @param sortField the field by which to sort the results
+     * @param sortOrder the order of sorting ("asc" for ascending, "desc" for descending)
+     * @return a {@link Page} object containing the paginated forms
+     */
+    Page<FormDTO> getAllFormByCreatedBy(String createdBy, int page, int size, String sortField, String sortOrder);
+
 
     /**
      * Adds a new form to the system.
@@ -40,7 +52,7 @@ public interface FormService {
      * @return the ID of the created form
      * @throws Operation if an error occurs during the form creation process
      */
-    String addForm(Form form) throws Operation;
+    String addForm(FormDTO formDto) throws Operation;
 
     /**
      * Updates an existing form with new details.
@@ -50,5 +62,7 @@ public interface FormService {
      * @return the updated {@link Form} entity
      * @throws Operation if an error occurs during the form update process
      */
-    Form updateForm(String formId, Form form) throws Operation;
+    FormDTO updateForm(String formId, FormDTO form) throws Operation;
+
+    Boolean isFormCreatedByEmail(String formId, String email);
 }

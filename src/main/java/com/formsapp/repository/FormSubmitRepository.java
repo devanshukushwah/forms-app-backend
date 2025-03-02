@@ -1,8 +1,8 @@
 package com.formsapp.repository;
 
-import com.formsapp.model.FormSubmit;
-import com.formsapp.model.projection.FormResponse;
-import com.formsapp.model.projection.SubmitsCount;
+import com.formsapp.entity.FormSubmit;
+import com.formsapp.entity.projection.Submission;
+import com.formsapp.entity.projection.SubmitsCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,11 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
      * @param email the email address of the form submitter
      * @return the {@link FormSubmit} entity associated with the given formId and email, or {@code null} if not found
      */
-    FormSubmit findByFormIdAndEmail(String formId, String email);
+    List<FormSubmit> findAllByFormIdAndEmail(String formId, String email);
+
+    List<FormSubmit> findAllByFormId(String formId);
+
+    Optional<FormSubmit> findTopByFormIdAndEmailOrderBySubIdDesc(String formId, String email);
 
     /**
      * Finds a form submission by its submission ID and form ID.
@@ -44,10 +49,10 @@ public interface FormSubmitRepository extends JpaRepository<FormSubmit, UUID> {
      *
      * @param formId the ID of the form to find submissions for
      * @param pageable the pagination information
-     * @return a paginated list of {@link FormResponse} projections containing the email, submission ID, and creation date of each submission
+     * @return a paginated list of {@link Submission} projections containing the email, submission ID, and creation date of each submission
      */
     @Query("SELECT f.email AS email, f.subId AS subId, f.createdDate as createdDate FROM FormSubmit f WHERE f.formId = :formId")
-    Page<FormResponse> findAllByFormId(String formId, Pageable pageable);
+    Page<Submission> findAllByFormId(String formId, Pageable pageable);
 
     /**
      * Finds the count of form submissions for a list of form IDs.

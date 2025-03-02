@@ -1,9 +1,10 @@
 package com.formsapp.controller;
 
+import com.formsapp.annotation.FormEditPermissionAnnotation;
 import com.formsapp.common.AppMessage;
+import com.formsapp.dto.FormFieldDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormField;
-import com.formsapp.model.core.CustomResponse;
+import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.service.FormFieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,9 +38,10 @@ public class FormFieldController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the created form field and a success message.
      * @throws FormException If the form field cannot be created.
      */
+    @FormEditPermissionAnnotation
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormField>> addFormsField(@PathVariable String formId, @RequestBody FormField formField) throws FormException {
-        FormField res = formFieldService.save(formId, formField);
+    public ResponseEntity<CustomResponse<FormFieldDTO>> addFormsField(@PathVariable String formId, @RequestBody FormFieldDTO formFieldDto) throws FormException {
+        FormFieldDTO res = formFieldService.save(formId, formFieldDto);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getCreateSuccessfully());
         }
@@ -60,9 +62,10 @@ public class FormFieldController extends BaseController {
      * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the updated form field and a success message.
      * @throws FormException If the form field cannot be updated.
      */
+    @FormEditPermissionAnnotation
     @RequestMapping(method = RequestMethod.PUT, path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormField>> updateFormsField(@PathVariable String formId, @PathVariable Long id, @RequestBody FormField formField) throws FormException {
-        FormField res = formFieldService.updateFormField(formId, id, formField);
+    public ResponseEntity<CustomResponse<FormFieldDTO>> updateFormsField(@PathVariable String formId, @PathVariable Long id, @RequestBody FormFieldDTO formFieldDto) throws FormException {
+        FormFieldDTO res = formFieldService.updateFormField(formId, id, formFieldDto);
         if (res != null) {
             return responseOkDataMessage(res, AppMessage.FORM_FIELD.getUpdateSuccessfully());
         }

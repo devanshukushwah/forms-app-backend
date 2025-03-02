@@ -1,4 +1,4 @@
-package com.formsapp.model.projection;
+package com.formsapp.entity.projection;
 
 /**
  * Projection interface for retrieving the count of submissions for a specific form.

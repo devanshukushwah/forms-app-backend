@@ -1,8 +1,9 @@
-package com.formsapp.model;
+package com.formsapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class FormSubmit {
 
     /**
@@ -47,14 +49,6 @@ public class FormSubmit {
      */
     @Column(updatable = false, nullable = false)
     private Date createdDate;
-
-    /**
-     * Callback to set the creation date before persisting the entity.
-     */
-    @PrePersist
-    protected void onCreate() {
-        this.createdDate = new Date();
-    }
 
     /**
      * List of answers provided in the form submission.

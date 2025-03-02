@@ -1,6 +1,6 @@
 package com.formsapp.repository;
 
-import com.formsapp.model.Form;
+import com.formsapp.entity.Form;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -43,6 +43,15 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
      * @return a {@link Page} of {@link Form} entities
      */
     Page<Form> findAll(Pageable pageable);
+
+    /**
+     * Retrieves a paginated list of all forms.
+     *
+     * @param pageable the pagination information
+     * @return a {@link Page} of {@link Form} entities
+     */
+    Page<Form> findAllByCreatedBy(String createdBy, Pageable pageable);
+
 
     /**
      * Counts the number of forms created within a specific date range (from the start to the end of the day).

@@ -1,8 +1,9 @@
-package com.formsapp.model;
+package com.formsapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
 public class Form {
 
     /**
@@ -39,6 +41,11 @@ public class Form {
      * A short description of the form.
      */
     private String description;
+
+    /**
+     * A flag to identify multiple submit allowed.
+     * */
+    private Boolean multipleSubmit;
 
     /**
      * Timestamp indicating when the form was created.
@@ -63,20 +70,6 @@ public class Form {
      * The email or username of the user who last updated the form.
      */
     private String changedBy;
-
-    /**
-     * The list of form fields associated with the form.
-     * This field is not persisted in the database and is transient.
-     */
-    @Transient
-    private List<FormField> formFields;
-
-    /**
-     * The count of submissions for this form.
-     * This field is not persisted in the database and is transient.
-     */
-    @Transient
-    private Long submitsCount;
 
     /**
      * Callback to set the createdDate before persisting the entity.

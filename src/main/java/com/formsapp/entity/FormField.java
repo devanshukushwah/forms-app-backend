@@ -1,8 +1,9 @@
-package com.formsapp.model;
+package com.formsapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class FormField {
 
     /**
@@ -34,6 +36,8 @@ public class FormField {
      * The type of the form field (e.g., text, checkbox, dropdown).
      */
     private String fieldType;
+
+    private String fieldTitle;
 
     /**
      * Indicates whether the form field is required.

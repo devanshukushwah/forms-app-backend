@@ -8,7 +8,7 @@ package com.formsapp.common;
  * unmodifiable, and memory efficient.
  * </p>
  */
-public class AppConstant {
+public interface AppConstant {
 
     /**
      * Date format pattern representing year, month, and day in the format {@code yyyyMMdd}.
@@ -16,7 +16,7 @@ public class AppConstant {
      * Example: {@code 20250101} represents January 1, 2025.
      * </p>
      */
-    public static final String DATE_yyyyMMdd = "yyyyMMdd";
+    String DATE_yyyyMMdd = "yyyyMMdd";
 
     /**
      * A constant string with a hyphen followed by an uppercase 'F' ({@code "-F"}).
@@ -24,7 +24,14 @@ public class AppConstant {
      * This can be used as a suffix or delimiter in formatted strings.
      * </p>
      */
-    public static final String HYPHEN_F = "-F";
+    String HYPHEN_F = "-F";
 
-    public static final String KAFKA_TOPIC_FORMS_APP = "TOPIC-FORMS-APP";
+    String KAFKA_TOPIC_FORMS_APP = "TOPIC-FORMS-APP";
+
+    String FILE_TEXT_CSV = "text/csv";
+
+    String CSV = "csv";
+
+    String FIELD_FORM_ID = "formId";
+
 }

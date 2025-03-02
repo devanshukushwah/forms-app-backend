@@ -1,4 +1,4 @@
-package com.formsapp.model.projection;
+package com.formsapp.entity.projection;
 
 import java.util.Date;
 import java.util.UUID;
@@ -11,7 +11,7 @@ import java.util.UUID;
  * data sources, without exposing the entire entity.
  * </p>
  */
-public interface FormResponse {
+public interface Submission {
 
     /**
      * Gets the email associated with the form submission.

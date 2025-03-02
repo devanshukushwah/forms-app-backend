@@ -1,7 +1,8 @@
 package com.formsapp.service;
 
+import com.formsapp.dto.FormFieldDTO;
 import com.formsapp.exception.FormException;
-import com.formsapp.model.FormField;
+import com.formsapp.entity.FormField;
 
 /**
  * Service interface for handling form field operations.
@@ -19,7 +20,7 @@ public interface FormFieldService {
      * @return the saved {@link FormField} entity
      * @throws FormException if an error occurs during the save operation
      */
-    FormField save(String formId, FormField formField) throws FormException;
+    FormFieldDTO save(String formId, FormFieldDTO formFieldDto) throws FormException;
 
     /**
      * Updates an existing form field associated with a specific form.
@@ -30,5 +31,5 @@ public interface FormFieldService {
      * @return the updated {@link FormField} entity
      * @throws FormException if an error occurs during the update operation
      */
-    FormField updateFormField(String formId, Long formFieldId, FormField formField) throws FormException;
+    FormFieldDTO updateFormField(String formId, Long formFieldId, FormFieldDTO formFieldDto) throws FormException;
 }

@@ -9,16 +9,14 @@ import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.ExportService;
 import com.formsapp.service.FormFieldService;
 import com.opencsv.CSVWriter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,14 +49,17 @@ public class ExportServiceImpl implements ExportService {
             for (FormSubmit submit: submits) {
                 rows[rowIdx][0] = submit.getEmail();
                 List<FormFieldAnswer> answers = Optional.ofNullable(submit.getAnswers()).orElse(Collections.emptyList());
-                if (!answers.isEmpty()) {
+                if (!answers.isEmpty() && formField.getFieldId() != null) {
                     String ans = answers.stream()
-                            .filter(item -> formField.getFieldId().equals(item.getFieldId()))
+                            .filter(item -> item != null && formField.getFieldId().equals(item.getFieldId()))
                             .map(FormFieldAnswer::getValue)
+                            .filter(Objects::nonNull) // Ensure value is not null
                             .findFirst()
-                            .orElse(null);
+                            .orElse(StringUtils.EMPTY);
+
                     rows[rowIdx++][headerIdx] = ans;
                 }
+
             }
             headerIdx++;
         }

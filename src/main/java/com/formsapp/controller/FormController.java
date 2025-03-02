@@ -7,6 +7,11 @@ import com.formsapp.dto.core.CustomResponse;
 import com.formsapp.exception.FormException;
 import com.formsapp.service.FormService;
 import com.formsapp.service.LoggedInUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * </p>
  */
 @Slf4j
+@Tag(name = "Form Controller", description = "APIs for managing forms") // Swagger tag for categorizing APIs
 @RestController
 @RequestMapping("/api/v1/forms")
 public class FormController extends BaseController {
@@ -34,97 +40,100 @@ public class FormController extends BaseController {
 
     /**
      * Retrieves a specific form by its ID.
-     * <p>
-     * This method fetches a form by its ID and returns it in a successful response if found.
-     * If the form is not found, an error response is returned.
-     * </p>
      *
      * @param formId The ID of the form to be retrieved.
-     * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the form details if found,
-     *         or an error message if the form is not found.
+     * @return A ResponseEntity containing the form details if found, or an error message if not found.
      */
-    @RequestMapping(method = RequestMethod.GET, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormDTO>> getForms(@PathVariable String formId) {
+    @Operation(summary = "Retrieve a form by ID", description = "Fetches a specific form using its ID.") // Swagger summary
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Form retrieved successfully"),
+            @ApiResponse(responseCode = "500", description = "Form not found")
+    })
+    @GetMapping(value = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<FormDTO>> getForms(
+            @Parameter(description = "ID of the form to be retrieved") // Swagger parameter
+            @PathVariable String formId) {
         FormDTO formDto = formService.getForm(formId);
-        if(formDto != null) {
-            return responseOk(formDto);
+        if (formDto != null) {
+            return responseOk(formDto); // Returns success response if form is found
         }
-        return responseFailDataMessage(null, AppMessage.FORM.getNotFound());
+        return responseFailDataMessage(null, AppMessage.FORM.getNotFound()); // Returns failure response if form is not found
     }
 
     /**
      * Retrieves a paginated list of all forms.
-     * <p>
-     * This method fetches all forms in a paginated format with sorting options.
-     * The list of forms is returned in a successful response.
-     * If no forms are found, an error response is returned.
-     * </p>
      *
      * @param page The page number to retrieve (default is 0).
      * @param size The page size (default is 10).
      * @param sortField The field to sort by (default is "createdDate").
      * @param sortOrder The order to sort by ("asc" or "desc", default is "desc").
-     * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the paginated list of forms if found,
-     *         or an error message if no forms are found.
+     * @return A ResponseEntity containing a paginated list of forms.
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Retrieve all forms with pagination", description = "Fetches a paginated list of forms.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Forms retrieved successfully"),
+            @ApiResponse(responseCode = "500", description = "No forms found")
+    })
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<Page<FormDTO>>> getAllForms(
-            @RequestParam(defaultValue = "0") int page,  // Page number (default is 0)
-            @RequestParam(defaultValue = "10") int size, // Page size (default is 10)
-            @RequestParam(defaultValue = "createdDate") String sortField,  // Sorting field (default is "name")
-            @RequestParam(defaultValue = "desc") String sortOrder
+            @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size,
+            @Parameter(description = "Field to sort by") @RequestParam(defaultValue = "createdDate") String sortField,
+            @Parameter(description = "Sort order (asc/desc)") @RequestParam(defaultValue = "desc") String sortOrder
     ) throws FormException {
-        String loggedInUser = loggedInUserService.getLoggedInUserEmail();
+        String loggedInUser = loggedInUserService.getLoggedInUserEmail(); // Get logged-in user
         Page<FormDTO> forms = formService.getAllFormByCreatedBy(loggedInUser, page, size, sortField, sortOrder);
-        if(forms != null) {
-            return responseOk(forms);
+        if (forms != null) {
+            return responseOk(forms); // Returns success response if forms are found
         }
-        return responseFailDataMessage(null, AppMessage.FORM.getNotFound());
+        return responseFailDataMessage(null, AppMessage.FORM.getNotFound()); // Returns failure response if no forms are found
     }
 
     /**
      * Adds a new form to the system.
-     * <p>
-     * This method accepts a {@link Form} object in the request body and saves it to the system.
-     * The newly created form's ID is returned if the creation is successful.
-     * If the form cannot be created, a {@link FormException} is thrown.
-     * </p>
      *
-     * @param form The form object to be created.
-     * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the created form's ID and a success message.
+     * @param formDto The form object to be created.
+     * @return A ResponseEntity containing the created form's ID and a success message.
      * @throws FormException If the form cannot be created.
      */
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create a new form", description = "Adds a new form to the system.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Form created successfully"),
+            @ApiResponse(responseCode = "500", description = "Form creation failed")
+    })
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse<String>> addForms(@RequestBody FormDTO formDto) throws FormException {
-        formDto.setCreatedBy(loggedInUserService.getLoggedInUserEmail());
+        formDto.setCreatedBy(loggedInUserService.getLoggedInUserEmail()); // Set the creator of the form
         String formId = formService.addForm(formDto);
-        if(formId != null) {
-            return responseOkDataMessage(formId, AppMessage.FORM.getCreateSuccessfully());
+        if (formId != null) {
+            return responseOkDataMessage(formId, AppMessage.FORM.getCreateSuccessfully()); // Returns success response
         }
-        throw new FormException(AppMessage.FORM.getCreateFailed());
+        throw new FormException(AppMessage.FORM.getCreateFailed()); // Throws exception if form creation fails
     }
 
     /**
      * Updates an existing form.
-     * <p>
-     * This method accepts a {@link Form} object and its ID to update the existing form in the system.
-     * The updated form details are returned if the update is successful.
-     * If the update fails, a {@link FormException} is thrown.
-     * </p>
      *
      * @param formId The ID of the form to be updated.
-     * @param form The form object with updated details.
-     * @return A {@link ResponseEntity} containing a {@link CustomResponse} with the updated form and a success message.
+     * @param formDto The form object with updated details.
+     * @return A ResponseEntity containing the updated form and a success message.
      * @throws FormException If the form cannot be updated.
      */
-    @FormEditPermissionAnnotation
-    @RequestMapping(method = RequestMethod.PUT, path = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponse<FormDTO>> updateForms(@PathVariable("formId") String formId, @RequestBody FormDTO formDto) throws FormException {
-        formDto.setChangedBy(loggedInUserService.getLoggedInUserEmail());
+    @Operation(summary = "Update an existing form", description = "Updates a form using its ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Form updated successfully"),
+            @ApiResponse(responseCode = "500", description = "Form update failed")
+    })
+    @FormEditPermissionAnnotation // Custom annotation for edit permissions
+    @PutMapping(value = "{formId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<FormDTO>> updateForms(
+            @Parameter(description = "ID of the form to be updated") @PathVariable("formId") String formId,
+            @RequestBody FormDTO formDto) throws FormException {
+        formDto.setChangedBy(loggedInUserService.getLoggedInUserEmail()); // Set the modifier of the form
         FormDTO res = formService.updateForm(formId, formDto);
         if (res != null) {
-            return responseOkDataMessage(res, AppMessage.FORM.getUpdateSuccessfully());
+            return responseOkDataMessage(res, AppMessage.FORM.getUpdateSuccessfully()); // Returns success response
         }
-        throw new FormException(AppMessage.FORM.getUpdateFailed());
+        throw new FormException(AppMessage.FORM.getUpdateFailed()); // Throws exception if form update fails
     }
 }

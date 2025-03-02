@@ -8,6 +8,7 @@ import com.formsapp.repository.FormFieldRepository;
 import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.ExportService;
 import com.formsapp.service.FormFieldService;
+import com.formsapp.util.DateUtils;
 import com.opencsv.CSVWriter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,10 @@ public class ExportServiceImpl implements ExportService {
                             .findFirst()
                             .orElse(StringUtils.EMPTY);
 
+                    // format date
+                    if (AppConstant.FIELD_TYPE_DATE.equalsIgnoreCase(formField.getFieldType())) {
+                        ans = StringUtils.EMPTY.equals(ans) ? ans : DateUtils.getDateStringInPattern(AppConstant.DATE_ddMMyyyy);
+                    }
                     rows[rowIdx++][headerIdx] = ans;
                 }
 

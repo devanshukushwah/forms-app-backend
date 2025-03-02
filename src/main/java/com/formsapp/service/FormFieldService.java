@@ -32,4 +32,13 @@ public interface FormFieldService {
      * @throws FormException if an error occurs during the update operation
      */
     FormFieldDTO updateFormField(String formId, Long formFieldId, FormFieldDTO formFieldDto) throws FormException;
+
+
+    /**
+     * Delete form field associated with a specific form.
+     *
+     * @param formFieldId the ID of the field to be updated
+     * @throws FormException if an error occurs during the update operation
+     */
+    Boolean deleteFormField(Long formFieldId) throws FormException;
 }

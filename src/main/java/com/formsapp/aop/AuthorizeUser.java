@@ -1,12 +1,11 @@
 package com.formsapp.aop;
 
+import com.formsapp.common.AppConstant;
 import com.formsapp.common.AppErrorMessage;
-import com.formsapp.dto.FormDTO;
 import com.formsapp.exception.FormException;
 import com.formsapp.exception.Operation;
 import com.formsapp.service.FormService;
 import com.formsapp.service.LoggedInUserService;
-import lombok.NonNull;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -32,21 +31,15 @@ public class AuthorizeUser {
     }
 
     @Pointcut("@annotation(com.formsapp.annotation.FormEditPermissionAnnotation)")
-    public void myCustomAnnotationPointcut() {
+    public void formEditPermissionAnnotationPointcut() {
     }
 
-    private void forFormEditPermissionAnnotation(@NonNull Object formId) throws FormException {
-        String loggedInUserEmail = loggedInUserService.getLoggedInUserEmail();
-        if (loggedInUserEmail != null) {
-            FormDTO form = formService.getForm(formId.toString());
-            if (form != null && !loggedInUserEmail.equalsIgnoreCase(form.getCreatedBy())) {
-                throw new Operation(AppErrorMessage.NOT_HAVE_PERMISSION_TO_EDIT.getMessage());
-            }
-        }
-    }
-
-    @Before("myCustomAnnotationPointcut()")
-    public void beforeMethod(JoinPoint joinPoint) throws FormException {
+    /**
+     * This method to take jointPoint and return map of path variable and its values from methods.
+     *
+     * @param joinPoint
+     * */
+    private Map<String, Object> getPathVariableAndValue(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
@@ -64,10 +57,24 @@ public class AuthorizeUser {
                 }
             }
         }
+        return pathVars;
+    }
+
+    /**
+     * This Method check form is created by same as logged-in user, if not same then throw exception.
+     *
+     * @param joinPoint
+     * */
+    @Before("formEditPermissionAnnotationPointcut()")
+    public void beforeMethod(JoinPoint joinPoint) throws FormException {
+        Map<String, Object> pathVars = getPathVariableAndValue(joinPoint);
 
         // authorize
-        forFormEditPermissionAnnotation(pathVars.get("formId"));
+        String loggedInUserEmail = loggedInUserService.getLoggedInUserEmail();
 
+        if (!formService.isFormCreatedByEmail(pathVars.get(AppConstant.FIELD_FORM_ID).toString(), loggedInUserEmail)) {
+            throw new Operation(AppErrorMessage.USER_NOT_HAVE_PERMISSION_TO_EDIT.getMessage());
+        }
     }
 }
 

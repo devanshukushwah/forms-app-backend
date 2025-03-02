@@ -37,7 +37,7 @@ public enum AppErrorMessage {
      */
     GET_FORM_SUBMIT_FAILED("failed to get form and submit"),
 
-    NOT_HAVE_PERMISSION_TO_EDIT("not have permission to edit"),
+    USER_NOT_HAVE_PERMISSION_TO_EDIT("user not have permission to edit"),
 
     /**
      * Represents an error indicating the failure of export.

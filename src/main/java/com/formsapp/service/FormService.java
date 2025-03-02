@@ -63,4 +63,6 @@ public interface FormService {
      * @throws Operation if an error occurs during the form update process
      */
     FormDTO updateForm(String formId, FormDTO form) throws Operation;
+
+    Boolean isFormCreatedByEmail(String formId, String email);
 }

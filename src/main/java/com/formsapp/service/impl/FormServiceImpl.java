@@ -15,6 +15,7 @@ import com.formsapp.repository.FormSubmitRepository;
 import com.formsapp.service.FormService;
 import com.formsapp.util.DateUtils;
 import com.formsapp.util.UUIDUtils;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -155,6 +156,15 @@ public class FormServiceImpl implements FormService {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean isFormCreatedByEmail(@NonNull String formId, @NonNull String email) {
+        Form form = formRepository.findByFormId(formId);
+        return form != null && email.equalsIgnoreCase(form.getCreatedBy());
+    }
+
+    /**
      * Method to generate a unique ID for creating a new form.
      * It first generates an ID based on the current pattern and checks if the ID already exists.
      * If it exists, it generates a new UUID.
@@ -165,7 +175,7 @@ public class FormServiceImpl implements FormService {
     private String generateFormId() throws Operation {
         try {
             String formId = generateMyFormIdPattern();
-            while(formRepository.existsByFormId(formId)) {
+            while (formRepository.existsByFormId(formId)) {
                 formId = UUIDUtils.generateUUID();
             }
             return formId;

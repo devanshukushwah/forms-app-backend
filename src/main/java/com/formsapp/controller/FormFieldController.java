@@ -87,4 +87,32 @@ public class FormFieldController extends BaseController {
         }
         return responseFailDataMessage(null, AppMessage.FORM_FIELD.getUpdateFailed()); // Failure response
     }
+
+    /**
+     * Deletes a form field from a specific form.
+     *
+     * @param formId The ID of the form from which the field should be removed.
+     * @param id The ID of the form field to be deleted.
+     * @return A ResponseEntity containing a success or failure message.
+     * @throws FormException If the form field cannot be deleted.
+     */
+    @Operation(summary = "Delete a form field", description = "Removes a field from a specified form.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Form field deleted successfully"),
+            @ApiResponse(responseCode = "500", description = "Form field deletion failed")
+    })
+    @FormEditPermissionAnnotation
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponse<Boolean>> deleteFormField(
+            @Parameter(description = "ID of the form to which the field belongs")
+            @PathVariable String formId,
+            @Parameter(description = "ID of the form field to be deleted")
+            @PathVariable Long id) throws FormException {
+        Boolean deleted = formFieldService.deleteFormField(id);
+        if (deleted) {
+            return responseOkDataMessage(true, AppMessage.FORM_FIELD.getDeleteSuccessfully()); // Success response
+        }
+        return responseFailDataMessage(false, AppMessage.FORM_FIELD.getDeleteFailed()); // Failure response
+    }
+
 }

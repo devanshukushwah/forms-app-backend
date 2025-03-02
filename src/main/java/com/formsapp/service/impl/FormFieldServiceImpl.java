@@ -9,6 +9,8 @@ import com.formsapp.service.FormFieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class FormFieldServiceImpl implements FormFieldService {
 
@@ -39,5 +41,14 @@ public class FormFieldServiceImpl implements FormFieldService {
     public FormFieldDTO updateFormField(String formId, Long formFieldId, FormFieldDTO formFieldDto) throws FormException {
         formFieldDto.setFieldId(formFieldId);
         return save(formId, formFieldDto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean deleteFormField(Long formFieldId) throws FormException {
+        formFieldRepository.deleteById(formFieldId);
+        return !formFieldRepository.existsById(formFieldId);
     }
 }

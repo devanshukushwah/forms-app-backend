@@ -38,9 +38,11 @@ public enum AppMessage {
         this.createSuccessfully = message.concat(SPACE).concat(CREATE).concat(SPACE).concat(SUCCESSFULLY);
         this.submitSuccessfully = message.concat(SPACE).concat(SUBMIT).concat(SPACE).concat(SUCCESSFULLY);
         this.updateSuccessfully = message.concat(SPACE).concat(UPDATE).concat(SPACE).concat(SUCCESSFULLY);
+        this.deleteSuccessfully = message.concat(SPACE).concat(DELETE).concat(SPACE).concat(SUCCESSFULLY);
         this.createFailed = FAILED_TO.concat(SPACE).concat(CREATE).concat(SPACE).concat(message);
         this.submitFailed = FAILED_TO.concat(SPACE).concat(SUBMIT).concat(SPACE).concat(message);
         this.updateFailed = FAILED_TO.concat(SPACE).concat(UPDATE).concat(SPACE).concat(message);
+        this.deleteFailed = FAILED_TO.concat(SPACE).concat(DELETE).concat(SPACE).concat(message);
         this.fetchFailed = FAILED_TO.concat(SPACE).concat(FETCH).concat(SPACE).concat(message);
         this.notFound = message.concat(SPACE).concat(NOT_FOUND);
     }
@@ -50,6 +52,7 @@ public enum AppMessage {
     private static final String FAILED_TO = "failed to";
     private static final String CREATE = "create";
     private static final String UPDATE = "update";
+    private static final String DELETE = "delete";
     private static final String FETCH = "fetch";
     private static final String SUBMIT = "submit";
     private static final String SPACE = " ";
@@ -76,6 +79,11 @@ public enum AppMessage {
     private final String updateSuccessfully;
 
     /**
+     * Message for successful delete operation.
+     */
+    private final String deleteSuccessfully;
+
+    /**
      * Message for failed creation operation.
      */
     private final String createFailed;
@@ -89,6 +97,11 @@ public enum AppMessage {
      * Message for failed update operation.
      */
     private final String updateFailed;
+
+    /**
+     * Message for failed delete operation.
+     */
+    private final String deleteFailed;
 
     /**
      * Message for failed fetch operation.

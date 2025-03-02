@@ -18,6 +18,8 @@ public interface AppConstant {
      */
     String DATE_yyyyMMdd = "yyyyMMdd";
 
+    String DATE_ddMMyyyy = "dd-MMM-yyyy";
+
     /**
      * A constant string with a hyphen followed by an uppercase 'F' ({@code "-F"}).
      * <p>
@@ -33,5 +35,7 @@ public interface AppConstant {
     String CSV = "csv";
 
     String FIELD_FORM_ID = "formId";
+
+    String FIELD_TYPE_DATE = "date";
 
 }

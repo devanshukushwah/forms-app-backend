@@ -1,4 +1,4 @@
-# Forms App
+# Forms Backend Application
 
 FormsApp is a web-based application that allows users to create, submit, and track forms. It provides functionalities such as form creation, field definition, form submission, and form response tracking, all using RESTful APIs. The application supports user authentication, and forms can be dynamically generated and managed.
 
@@ -11,6 +11,30 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 - [Form App Kafka Consumer](https://github.com/devanshukushwah/forms-app-consumer)
 
 ## Features
+
+- Spring MVC Design pattern.
+- Kafka Producer.
+- DTO Design Pattern.
+- Swagger UI (API Documentation).
+- Spring Aspect Oriented Programming (AOP).
+- Spring Security (JWT).
+- Spring JPA (Hibernate ORM).
+- Database Transaction handling.
+- Actuators (Production ready endpoints).
+- Log4j2 logging (File & Console based).
+- Junit & Mockito (Unit Testing & Mocking Bean).
+- Create, Update, Read & Delete Operation (CRUD).
+- Handle Multithreading.
+- Global Exception Handling.
+- Cross Origin Configuration.
+- Environment based beans handle (local, dev, qa & prod).
+- Flag based beans handle (For disable kafka).
+- Custom Exception.
+- Custom Annotation.
+- Custom Date formatting.
+- Custom Id generation for Form.
+
+## Basic Details
 
 - **Form Management**: Create and update forms with customizable fields.
 - **Form Submission**: Allows users to submit forms.
@@ -28,8 +52,10 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 - **Testing**: JUnit, Mockito
 - **Logging**: Log4J2
 
-
 ## Changelogs
+
+### 2.1.0
+- Stable version
 
 ### 2.0.0
 - Updated to `JDK 21` and `Springboot 3.4.2`

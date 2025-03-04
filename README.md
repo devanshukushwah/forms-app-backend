@@ -23,7 +23,7 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 - Actuators (Production ready endpoints).
 - Log4j2 logging (File & Console based).
 - Junit & Mockito (Unit Testing & Mocking Bean).
-- Create, Update, Read & Delete Operation (CRUD).
+- Create, Read, Update & Delete Operation (CRUD).
 - Handle Multithreading.
 - Global Exception Handling.
 - Cross Origin Configuration.

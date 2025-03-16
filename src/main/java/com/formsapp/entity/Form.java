@@ -37,8 +37,9 @@ public class Form {
     private String title;
 
     /**
-     * A short description of the form.
+     * A Long description of the form.
      */
+    @Column(length = 1000)
     private String description;
 
     /**

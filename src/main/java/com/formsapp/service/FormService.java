@@ -22,6 +22,14 @@ public interface FormService {
     FormDTO getForm(String formId);
 
     /**
+     * Retrieves a form by its ID cached.
+     *
+     * @param formId the ID of the form to retrieve
+     * @return the {@link Form} entity with the specified ID
+     */
+    FormDTO getFormCached(String formId);
+
+    /**
      * Retrieves all forms with pagination and sorting.
      *
      * @param page the page number to retrieve

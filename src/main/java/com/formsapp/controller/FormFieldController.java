@@ -108,7 +108,7 @@ public class FormFieldController extends BaseController {
             @PathVariable String formId,
             @Parameter(description = "ID of the form field to be deleted")
             @PathVariable Long id) throws FormException {
-        Boolean deleted = formFieldService.deleteFormField(id);
+        Boolean deleted = formFieldService.deleteFormField(formId, id);
         if (deleted) {
             return responseOkDataMessage(true, AppMessage.FORM_FIELD.getDeleteSuccessfully()); // Success response
         }

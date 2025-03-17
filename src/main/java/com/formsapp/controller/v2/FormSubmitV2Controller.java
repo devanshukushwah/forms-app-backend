@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
  * </p>
  */
 @Slf4j // Enables logging
-@Tag(name = "Form Submission V2", description = "APIs for handling form submissions via Kafka") // Swagger API categorization
+@Tag(name = "Form Submission Controller", description = "APIs for managing form submissions") // Swagger API categorization
 @RestController
 @RequestMapping("/api/v2/submits")
 public class FormSubmitV2Controller extends BaseController {
@@ -44,7 +44,7 @@ public class FormSubmitV2Controller extends BaseController {
      * @param submitDto The form submission data.
      * @return A ResponseEntity indicating success or failure.
      */
-    @Operation(summary = "Submit a form asynchronously", description = "Sends form submission data to Kafka for processing.")
+    @Operation(summary = "Submit a form asynchronously using kafka", description = "Sends form submission data to Kafka for processing.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Form submission request accepted"),
             @ApiResponse(responseCode = "400", description = "Invalid form submission request")

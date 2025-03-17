@@ -16,6 +16,7 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 
 - Spring MVC Design pattern.
 - Kafka Producer.
+- Redis Cache.
 - DTO Design Pattern.
 - Swagger UI (API Documentation).
 - Spring Aspect Oriented Programming (AOP).
@@ -56,6 +57,9 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 - **Logging**: Log4J2
 
 ## Changelogs
+
+### 2.2.0
+- Redis cache
 
 ### 2.1.0
 - Stable version

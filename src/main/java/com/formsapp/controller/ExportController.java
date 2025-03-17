@@ -70,7 +70,8 @@ public class ExportController extends BaseController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-                .contentType(MediaType.parseMediaType(AppConstant.FILE_TEXT_CSV))
+                .contentLength(fileData.length)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(fileData);
     }
 }

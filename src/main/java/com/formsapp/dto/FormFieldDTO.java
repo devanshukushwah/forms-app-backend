@@ -1,6 +1,5 @@
 package com.formsapp.dto;
 
-import com.formsapp.entity.FormFieldAttribute;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

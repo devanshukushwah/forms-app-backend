@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Entity representing a form in the system.
@@ -38,8 +37,9 @@ public class Form {
     private String title;
 
     /**
-     * A short description of the form.
+     * A Long description of the form.
      */
+    @Column(length = 1000)
     private String description;
 
     /**

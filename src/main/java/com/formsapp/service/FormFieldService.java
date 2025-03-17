@@ -1,8 +1,8 @@
 package com.formsapp.service;
 
 import com.formsapp.dto.FormFieldDTO;
-import com.formsapp.exception.FormException;
 import com.formsapp.entity.FormField;
+import com.formsapp.exception.FormException;
 
 /**
  * Service interface for handling form field operations.
@@ -37,8 +37,8 @@ public interface FormFieldService {
     /**
      * Delete form field associated with a specific form.
      *
+     * @param formId the ID of the form the field belongs to
      * @param formFieldId the ID of the field to be updated
-     * @throws FormException if an error occurs during the update operation
      */
-    Boolean deleteFormField(Long formFieldId) throws FormException;
+    Boolean deleteFormField(String formId, Long formFieldId);
 }

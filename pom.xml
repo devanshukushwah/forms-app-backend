@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.formsapp</groupId>
   <artifactId>forms-app</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
   <name>forms-app</name>
   <description>This microservice is built for handle form related operation</description>
   <url/>
@@ -150,6 +150,10 @@
       <version>${opencsv.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
 
   </dependencies>
   <build>

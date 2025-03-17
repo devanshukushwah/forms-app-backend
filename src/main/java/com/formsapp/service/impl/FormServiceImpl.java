@@ -3,10 +3,10 @@ package com.formsapp.service.impl;
 import com.formsapp.common.AppConstant;
 import com.formsapp.dto.FormDTO;
 import com.formsapp.dto.FormFieldDTO;
-import com.formsapp.entity.FormField;
-import com.formsapp.exception.Operation;
 import com.formsapp.entity.Form;
+import com.formsapp.entity.FormField;
 import com.formsapp.entity.projection.SubmitsCount;
+import com.formsapp.exception.Operation;
 import com.formsapp.mapper.FormFieldMapper;
 import com.formsapp.mapper.FormMapper;
 import com.formsapp.repository.FormFieldRepository;
@@ -18,6 +18,8 @@ import com.formsapp.util.UUIDUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -60,6 +62,15 @@ public class FormServiceImpl implements FormService {
             return formDTO;
         }
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Cacheable(value = "forms", key = "#formId")
+    public FormDTO getFormCached(String formId) {
+        return getForm(formId);
     }
 
     /**
@@ -142,6 +153,7 @@ public class FormServiceImpl implements FormService {
      * {@inheritDoc}
      */
     @Override
+    @CacheEvict(value = "forms", key = "#formId")
     public FormDTO updateForm(String formId, FormDTO formDto) throws Operation {
         if (!formRepository.existsByFormId(formId)) {
             throw new Operation("form not found");

@@ -1,8 +1,8 @@
 package com.formsapp.service;
 
 import com.formsapp.dto.FormDTO;
-import com.formsapp.exception.Operation;
 import com.formsapp.entity.Form;
+import com.formsapp.exception.Operation;
 import org.springframework.data.domain.Page;
 
 /**
@@ -20,6 +20,14 @@ public interface FormService {
      * @return the {@link Form} entity with the specified ID
      */
     FormDTO getForm(String formId);
+
+    /**
+     * Retrieves a form by its ID cached.
+     *
+     * @param formId the ID of the form to retrieve
+     * @return the {@link Form} entity with the specified ID
+     */
+    FormDTO getFormCached(String formId);
 
     /**
      * Retrieves all forms with pagination and sorting.

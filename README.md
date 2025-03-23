@@ -16,10 +16,10 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 
 ## Features
 
-- Spring MVC Design pattern.
+- Spring MVC & DTO Design pattern.
 - Kafka Producer.
 - Redis Cache.
-- DTO Design Pattern.
+- Cross-origin resource sharing (CORS).
 - Swagger UI (API Documentation).
 - Spring Aspect Oriented Programming (AOP).
 - Spring Security (JWT).

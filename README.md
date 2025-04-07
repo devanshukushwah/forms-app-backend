@@ -7,7 +7,7 @@ FormsApp is a web-based application that allows users to create, submit, and tra
 ## Flow
 ![flow](https://raw.githubusercontent.com/devanshukushwah/forms-app-backend/refs/heads/main/images/flow.svg)
 ## Application Screenshot
-![Mockup](https://raw.githubusercontent.com/devanshukushwah/cdn/refs/heads/main/forms-app/images/mockup.jpg)
+![Mockup](https://raw.githubusercontent.com/devanshukushwah/cdn/refs/heads/main/forms-app/images/forms-app-mockup.svg)
 
 ## Application Repositories
 - [Form App Angular UI](https://github.com/devanshukushwah/forms-app-ui)
